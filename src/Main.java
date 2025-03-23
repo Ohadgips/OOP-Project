@@ -1,12 +1,23 @@
 import java.util.Scanner;
 
 public class Main {
+
+    public static String[] resizeArray(String[] array, int arraySize){
+        String[] temp = new String[arraySize*2];
+        for(int i=0; i<arraySize; i++){
+            temp[i] = array[i];
+        }
+        return temp;
+    }
+
     public static void main(String[] args) {
-        int arraySize =1;
+        int lecturersSize = 1;
+        boolean exists = true;
+        //lecturer = resizeArray(lecturer, arraySize)
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter College Name: ");
         String collegeName = sc.nextLine();
-        String[] lecturers = new String[arraySize];
+        String[] lecturers = new String[lecturersSize];
         int option;
         do{
             System.out.println("""
@@ -25,9 +36,25 @@ public class Main {
             sc.nextLine();
             switch(option){
                 case 1:
-                    System.out.print("Enter lecturer name: ");
-                    lecturerName = sc.nextLine();
+                    do {
+                        exists = false;
+                        System.out.print("Enter lecturer name: ");
+                        lecturerName = sc.nextLine();
+                        for(int i=0; i<lecturersSize-1; i++){
+                            if (lecturers[i].equals(lecturerName)) {
+                                System.out.println("This name is already in use.");
+                                exists = true;
+                                break;
+                            }
+                        }
+                    } while(exists);
+                    if (lecturersSize >= lecturers.length) {
+                        lecturers = resizeArray(lecturers, lecturersSize);
+                    }
+                    lecturers[lecturersSize-1] = lecturerName;
+                    lecturersSize++;
                     break;
+
                 case 2:
                     System.out.print("Enter committee name: ");
                     committeeName = sc.nextLine();
