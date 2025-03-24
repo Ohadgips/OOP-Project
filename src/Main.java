@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class Main {
 
@@ -11,13 +12,14 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        int lecturersSize = 1;
+        int mainSize = 1;
         boolean exists = true;
         //lecturer = resizeArray(lecturer, arraySize)
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter College Name: ");
         String collegeName = sc.nextLine();
-        String[] lecturers = new String[lecturersSize];
+        String[] lecturers = new String[mainSize];
+        String[] committee = new String[mainSize];
         int option;
         do{
             System.out.println("""
@@ -40,7 +42,7 @@ public class Main {
                         exists = false;
                         System.out.print("Enter lecturer name: ");
                         lecturerName = sc.nextLine();
-                        for(int i=0; i<lecturersSize-1; i++){
+                        for(int i=0; i<mainSize-1; i++){
                             if (lecturers[i].equals(lecturerName)) {
                                 System.out.println("This name is already in use.");
                                 exists = true;
@@ -48,17 +50,34 @@ public class Main {
                             }
                         }
                     } while(exists);
-                    if (lecturersSize >= lecturers.length) {
-                        lecturers = resizeArray(lecturers, lecturersSize);
+                    if (mainSize >= lecturers.length) {
+                        lecturers = resizeArray(lecturers, mainSize);
                     }
-                    lecturers[lecturersSize-1] = lecturerName;
-                    lecturersSize++;
+                    lecturers[mainSize-1] = lecturerName;
+                    mainSize++;
                     break;
 
                 case 2:
-                    System.out.print("Enter committee name: ");
-                    committeeName = sc.nextLine();
+                    int i = 0;
+                    exists = true;
+                    while(exists & i <= mainSize) {
+                        System.out.print("Enter committee name: ");
+                        committeeName = sc.nextLine(); // get from the user new Committe
+
+                        if (Arrays.asList(committee).contains(committeeName)) {
+                            System.out.println("This name is already in use.");
+                        }
+                        else{
+                            exists = false;
+                            if (mainSize >= committee.length) {
+                                committee = resizeArray(committee, mainSize);
+                            }
+                            committee[mainSize-1] = committeeName;
+                            mainSize++;
+                        }
+                    }
                     break;
+
                 case 3:
                     System.out.print("Enter study department name: ");
                     departmentName = sc.nextLine();
