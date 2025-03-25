@@ -12,14 +12,15 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        int mainSize = 1;
+        int committeeSize = 1,lecturersSize = 1,DepartmentsSize = 1;
         boolean exists = true;
         //lecturer = resizeArray(lecturer, arraySize)
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter College Name: ");
         String collegeName = sc.nextLine();
-        String[] lecturers = new String[mainSize];
-        String[] committee = new String[mainSize];
+        String[] lecturers = new String[lecturersSize];
+        String[] committee = new String[committeeSize];
+        String[] studyDepartments = new String[DepartmentsSize];
         int option;
         do{
             System.out.println("""
@@ -42,7 +43,7 @@ public class Main {
                         exists = false;
                         System.out.print("Enter lecturer name: ");
                         lecturerName = sc.nextLine();
-                        for(int i=0; i<mainSize-1; i++){
+                        for(int i=0; i<lecturersSize-1; i++){
                             if (lecturers[i].equals(lecturerName)) {
                                 System.out.println("This name is already in use.");
                                 exists = true;
@@ -50,17 +51,17 @@ public class Main {
                             }
                         }
                     } while(exists);
-                    if (mainSize >= lecturers.length) {
-                        lecturers = resizeArray(lecturers, mainSize);
+                    if (lecturersSize >= lecturers.length) {
+                        lecturers = resizeArray(lecturers, lecturersSize);
                     }
-                    lecturers[mainSize-1] = lecturerName;
-                    mainSize++;
+                    lecturers[lecturersSize-1] = lecturerName;
+                    lecturersSize++;
                     break;
 
                 case 2:
                     int i = 0;
                     exists = true;
-                    while(exists & i <= mainSize) {
+                    while(exists & i <= committeeSize) {
                         System.out.print("Enter committee name: ");
                         committeeName = sc.nextLine(); // get from the user new Committe
 
@@ -69,18 +70,33 @@ public class Main {
                         }
                         else{
                             exists = false;
-                            if (mainSize >= committee.length) {
-                                committee = resizeArray(committee, mainSize);
+                            if (committeeSize >= committee.length) {
+                                committee = resizeArray(committee, committeeSize);
                             }
-                            committee[mainSize-1] = committeeName;
-                            mainSize++;
+                            committee[committeeSize-1] = committeeName;
+                            committeeSize++;
                         }
                     }
                     break;
 
                 case 3:
-                    System.out.print("Enter study department name: ");
-                    departmentName = sc.nextLine();
+                    do {
+                        exists = false;
+                        System.out.print("Enter study department name: ");
+                        departmentName = sc.nextLine();
+                        for(i=0; i<DepartmentsSize-1; i++){
+                            if (studyDepartments[i].equals(departmentName)) {
+                                System.out.println("This name is already in use.");
+                                exists = true;
+                                break;
+                            }
+                        }
+                    } while(exists);
+                    if (DepartmentsSize >= studyDepartments.length) {
+                        studyDepartments = resizeArray(studyDepartments, DepartmentsSize);
+                    }
+                    studyDepartments[DepartmentsSize-1] = departmentName;
+                    DepartmentsSize++;
                     break;
                 case 4:
 
@@ -95,6 +111,10 @@ public class Main {
                     break;
                 case 7:
                     //print all lecturers names
+                    System.out.println("Here all the lecturers information:");
+                    for(int j =0; j<lecturersSize-1; j++){
+                        System.out.println(lecturers[j]);
+                    }
                     break;
                 case 8:
                     // print all committees names
