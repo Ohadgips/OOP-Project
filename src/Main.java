@@ -10,25 +10,6 @@ public class Main {
         }
         return temp;
     }
-    public static void addToArray (String output,String[] array,int arraySize){
-        boolean exists = true;
-        String input;
-        Scanner sc = new Scanner(System.in);
-        do {
-            exists = false;
-            System.out.print(output);
-            input = sc.nextLine();
-            for(int i=0; i<arraySize-1; i++){
-                if (array[i].equals(input)) {
-                    System.out.println("This name is already in use.");
-                    exists = true;
-                    break;
-                }
-            }
-        } while(exists);
-        array[arraySize-1] = input;
-
-    }
 
     public static void main(String[] args) {
         int committeeSize = 1,lecturersSize = 1,DepartmentsSize = 1;
@@ -38,7 +19,7 @@ public class Main {
         System.out.print("Enter College Name: ");
         String collegeName = sc.nextLine();
         String[] lecturers = new String[lecturersSize];
-        String[] committees = new String[committeeSize];
+        String[] committee = new String[committeeSize];
         String[] studyDepartments = new String[DepartmentsSize];
         int option;
         do{
@@ -58,10 +39,22 @@ public class Main {
             sc.nextLine();
             switch(option){
                 case 1:
-                    if (lecturersSize +1 >= lecturers.length) {
+                    do {
+                        exists = false;
+                        System.out.print("Enter lecturer name: ");
+                        lecturerName = sc.nextLine();
+                        for(int i=0; i<lecturersSize-1; i++){
+                            if (lecturers[i].equals(lecturerName)) {
+                                System.out.println("This name is already in use.");
+                                exists = true;
+                                break;
+                            }
+                        }
+                    } while(exists);
+                    if (lecturersSize >= lecturers.length) {
                         lecturers = resizeArray(lecturers, lecturersSize);
                     }
-                    addToArray("Enter lecturer name: ", lecturers, lecturersSize);
+                    lecturers[lecturersSize-1] = lecturerName;
                     lecturersSize++;
                     break;
 
@@ -70,42 +63,51 @@ public class Main {
                     exists = true;
                     while(exists & i <= committeeSize) {
                         System.out.print("Enter committee name: ");
-                        committeeName = sc.nextLine(); // get from the user new Committee
+                        committeeName = sc.nextLine(); // get from the user new Committe
 
-                        if (Arrays.asList(committees).contains(committeeName)) {
+                        if (Arrays.asList(committee).contains(committeeName)) {
                             System.out.println("This name is already in use.");
                         }
                         else{
                             exists = false;
-                            if (committeeSize >= committees.length) {
-                                committees = resizeArray(committees, committeeSize);
+                            if (committeeSize >= committee.length) {
+                                committee = resizeArray(committee, committeeSize);
                             }
-                            committees[committeeSize-1] = committeeName;
+                            committee[committeeSize-1] = committeeName;
                             committeeSize++;
                         }
                     }
-                    break;/*
-                    if (committeeSize >= committees.length) {
-                        committees = resizeArray(committees, committeeSize);
-                    }
-                    addToArray("Enter committee name: ", committees, committeeSize);
-                    committeeSize++;
-                    break;*/
+                    break;
 
                 case 3:
-                    if (DepartmentsSize +1 >= studyDepartments.length) {
+                    do {
+                        exists = false;
+                        System.out.print("Enter study department name: ");
+                        departmentName = sc.nextLine();
+                        for(i=0; i<DepartmentsSize-1; i++){
+                            if (studyDepartments[i].equals(departmentName)) {
+                                System.out.println("This name is already in use.");
+                                exists = true;
+                                break;
+                            }
+                        }
+                    } while(exists);
+                    if (DepartmentsSize >= studyDepartments.length) {
                         studyDepartments = resizeArray(studyDepartments, DepartmentsSize);
                     }
-                    addToArray("Enter study department name: ", studyDepartments, DepartmentsSize);
+                    studyDepartments[DepartmentsSize-1] = departmentName;
                     DepartmentsSize++;
                     break;
                 case 4:
-
                     System.out.print("Enter lecturer name: ");
                     lecturerName = sc.nextLine();
                     System.out.print("Enter committee name: ");
                     committeeName = sc.nextLine();
+
+                    
+
                     break;
+
                 case 5:
                     break;
                 case 6:
@@ -119,9 +121,12 @@ public class Main {
                     break;
                 case 8:
                     // print all committees names
+                    System.out.println("Here all the committees information:");
+                    for(int j =0; j<committeeSize-1; j++){
+                        System.out.println(committee[j]);
+                    }
                     break;
             }
         }while(option != 0);
-
     }
 }
