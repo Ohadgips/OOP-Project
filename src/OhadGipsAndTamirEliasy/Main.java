@@ -1,5 +1,7 @@
-import java.util.Scanner;
+package OhadGipsAndTamirEliasy;
 
+import java.util.Scanner;
+// Submitted By: Tamir Eliasy & Ohad Gips
 public class Main {
 
     public static String[] resizeArray(String[] array, int arraySize){
@@ -37,7 +39,7 @@ public class Main {
         }
         return true;
     }
-
+// Submitted By: Tamir Eliasy & Ohad Gips
     public static void main(String[] args) {
         int committeeSize = 1,lecturersSize = 1,DepartmentsSize = 1;
         Scanner sc = new Scanner(System.in);
