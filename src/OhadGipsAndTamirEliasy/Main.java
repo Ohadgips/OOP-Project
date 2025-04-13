@@ -4,41 +4,8 @@ import java.util.Scanner;
 // Submitted By: Tamir Eliasy & Ohad Gips
 public class Main {
 
-    public static String[] resizeArray(String[] array, int arraySize){
-        String[] temp = new String[arraySize*2];
-        for(int i=0; i<arraySize; i++){
-            temp[i] = array[i];
-        }
-        return temp;
-    }
-    public static void addToArray (String output,String[] array,int arraySize){
-        boolean exists = true;
-        String input;
-        Scanner sc = new Scanner(System.in);
-        do {
-            exists = false;
-            System.out.print(output);
-            input = sc.nextLine();
-            for(int i=0; i<arraySize-1; i++){
-                if (array[i].equals(input)) {
-                    System.out.println("This name is already in use.");
-                    exists = true;
-                    break;
-                }
-            }
-        } while(exists);
-        array[arraySize-1] = input;
 
-    }
-    public static boolean existsInArray (String[] array,int arraySize,String name)
-    {
-        for (int i=0; i<arraySize-1; i++){
-            if (array[i].equals(name)) {
-                return false;
-            }
-        }
-        return true;
-    }
+
 // Submitted By: Tamir Eliasy & Ohad Gips
     public static void main(String[] args) {
         int committeeSize = 1,lecturersSize = 1,DepartmentsSize = 1;
