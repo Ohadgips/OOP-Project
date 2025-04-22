@@ -1,6 +1,7 @@
 package OhadGipsAndTamirEliasy;
 
 public class Committee {
+    String name;
     Lecturer[] lecturers;
     int lecturersSize;
     Lecturer chairperson;
@@ -15,14 +16,14 @@ public class Committee {
         }
     }
 
-    public Committee(Lecturer chairperson) {
-        this.chairperson = chairperson;
+    public Committee(String name,Lecturer chairperson) {
+        setChairperson(chairperson);
+        setName(name);
         lecturersSize = 0;
         lecturers = new Lecturer[1];
     }
-    public Committee() {
-        lecturersSize = 0;
-        lecturers = new Lecturer[1];
+    public boolean canBeChairperson(Lecturer lecturer){
+        return lecturer.getKindOfDegree() == Lecturer.Degree.Master;
     }
 
     public Lecturer[] getLecturers() {
@@ -34,13 +35,20 @@ public class Committee {
         return true;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Lecturer getChairperson() {
         return chairperson;
     }
 
     public void setChairperson(Lecturer chairperson) {
-        if (chairperson.getDegree() == "doctorate") {
+        if (chairperson.getKindOfDegree() == Lecturer.Degree.Master) {
             this.chairperson = chairperson;
         }
         else{

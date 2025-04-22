@@ -1,7 +1,7 @@
 package OhadGipsAndTamirEliasy;
 
 public class Lecturer {
-    enum Degree {
+    public enum Degree {
         Bachelor,
         Master,
         Doctoral;
@@ -9,23 +9,24 @@ public class Lecturer {
 
     private String name;
     private int id;
-    private Degree kind_of_degree;
-    private String name_of_degree;
+    private Degree kindOfDegree;
+    private String nameOfDegree;
     private int wage;
     private Department department;
 
-    public Lecturer(String name, int id, String kind_of_degree, String name_of_degree, int wage) {
+    public Lecturer(String name, int id, Degree kindOfDegree, String nameOfDegree, int wage) {
         setName(name);
         setId(id);
-        setKind_of_degree(kind_of_degree);
+        setKindOfDegree(kindOfDegree);
+        setNameOfDegree(nameOfDegree);
         setWage(wage);
         this.department=null;
 
     }
-    public Lecturer(String name, int id, String kind_of_degree, String name_of_degree, int wage, Department department) {
+    public Lecturer(String name, int id, Degree kind_of_degree, String nameOfDegree, int wage, Department department) {
         setName(name);
         setId(id);
-        setKind_of_degree(kind_of_degree);
+        setKindOfDegree(kind_of_degree);
         setWage(wage);
         this.department=department;
     }
@@ -56,24 +57,24 @@ public class Lecturer {
         this.id = id;
     }
 
-    public void setKind_of_degree(String kind_of_degree) {
-        this.kind_of_degree = kind_of_degree;
+    public void setKindOfDegree(Degree KindOfDegree) {
+        this.kindOfDegree = KindOfDegree;
     }
 
-    public void setName_of_degree(String name_of_degree) {
-        this.name_of_degree = name_of_degree;
+    public void setNameOfDegree(String nameOfDegree) {
+        this.nameOfDegree = nameOfDegree;
     }
 
     public void setWage(int wage) {
         this.wage = wage;
     }
 
-    public String getKind_of_degree() {
-        return kind_of_degree;
+    public Degree getKindOfDegree() {
+        return kindOfDegree;
     }
 
-    public String getName_of_degree() {
-        return name_of_degree;
+    public String getNameOfDegree() {
+        return nameOfDegree;
     }
 
     public int getWage() {
