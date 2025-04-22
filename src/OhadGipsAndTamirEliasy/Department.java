@@ -20,10 +20,25 @@ public class Department {
         lecturers = new Lecturer[1];
         lecturersSize = 0;
     }
+    public boolean existsInLecturer(Lecturer lecturer) {
+        for (int i = 0; i < lecturersSize; i++) {
+            if (lecturers[i] == lecturer) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean addLecturer(Lecturer lecturer){
         resizeLecturers();
-        lecturers[lecturersSize++] = lecturer;
-        return true;
+        if (existsInLecturer(lecturer)) {
+            System.out.println("Lecturer already exists in this department");
+            return false;
+        }
+        else {
+            lecturers[lecturersSize++] = lecturer;
+            return true;
+        }
     }
     public String getName() {
         return this.name;

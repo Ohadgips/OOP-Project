@@ -8,13 +8,10 @@ public class Main {
 
 // Submitted By: Tamir Eliasy & Ohad Gips
     public static void main(String[] args) {
-        int committeeSize = 1,lecturersSize = 1,DepartmentsSize = 1;
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter College Name: ");
         String collegeName = sc.nextLine();
-        String[] lecturers = new String[lecturersSize];
-        String[] committees = new String[committeeSize];
-        String[] studyDepartments = new String[DepartmentsSize];
+        College college = new College(collegeName);
         int option;
         do{
             System.out.println("""
@@ -33,41 +30,21 @@ public class Main {
             sc.nextLine();
             switch(option){
                 case 1:
-                    if (lecturersSize >= lecturers.length) {
-                        lecturers = resizeArray(lecturers, lecturersSize);
-                    }
-                    addToArray("Enter lecturer name: ", lecturers, lecturersSize);
-                    lecturersSize++;
+                    college.addLecturer();
                     break;
 
                 case 2:
-                    if (committeeSize >= committees.length) {
-                        committees = resizeArray(committees, committeeSize);
-                    }
-                    addToArray("Enter committee name: ", committees, committeeSize);
-                    committeeSize++;
+                    college.addCommittee();
                     break;
-
                 case 3:
-                    if (DepartmentsSize >= studyDepartments.length) {
-                        studyDepartments = resizeArray(studyDepartments, DepartmentsSize);
-                    }
-                    addToArray("Enter study department name: ", studyDepartments, DepartmentsSize);
-                    DepartmentsSize++;
+                    System.out.print("Enter committee name: ");
+                    committeeName = sc.nextLine();
+                    System.out.print("Enter lecturer name: ");
+                    lecturerName = sc.nextLine();
+                    college.addLecturerToCommittee(committeeName, lecturerName);
                     break;
                 case 4:
-                    System.out.print("Enter lecturer name: ");
-                    String input = sc.nextLine();
-                    if (existsInArray(lecturers, lecturersSize, input))
-                    {
-                        System.out.println("This lecturer does not exist");
-                    }
-                    System.out.print("Enter committee name: ");
-                    input = sc.nextLine();
-                    if (existsInArray(committees, committeeSize, input))
-                    {
-                        System.out.println("This committee does not exist");
-                    }
+
                     break;
                 case 5:
                     break;
@@ -87,6 +64,8 @@ public class Main {
                         System.out.println(committees[j]);
                     }
                     break;
+                default:
+                    System.out.println("Invalid input try again");
             }
         }while(option != 0);
         System.out.println("You have left the system");

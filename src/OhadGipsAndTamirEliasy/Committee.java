@@ -29,10 +29,25 @@ public class Committee {
     public Lecturer[] getLecturers() {
         return lecturers;
     }
+    public boolean existsInLecturer(Lecturer lecturer) {
+        for (int i = 0; i < lecturersSize; i++) {
+            if (lecturers[i] == lecturer) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean addLecturer(Lecturer lecturer){
-        resizeLecturers();
-        lecturers[lecturersSize++] = lecturer;
-        return true;
+        if (existsInLecturer(lecturer)) {
+            System.out.println("Lecturer already exists in this department");
+            return false;
+        }
+        else {
+            resizeLecturers();
+            lecturers[lecturersSize++] = lecturer;
+            return true;
+        }
     }
 
     public String getName() {
@@ -52,7 +67,7 @@ public class Committee {
             this.chairperson = chairperson;
         }
         else{
-            System.out.println("This lecturer can't be a chairperson. chairperson must have a doctorate");
+            System.out.println("This lecturer can't be a chairperson. chairperson must have a doctoral degree");
         }
     }
 }
