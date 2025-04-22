@@ -1,10 +1,15 @@
 package OhadGipsAndTamirEliasy;
 
 public class Lecturer {
+    enum Degree {
+        Bachelor,
+        Master,
+        Doctoral;
+    }
 
     private String name;
     private int id;
-    private String kind_of_degree;
+    private Degree kind_of_degree;
     private String name_of_degree;
     private int wage;
     private Department department;
