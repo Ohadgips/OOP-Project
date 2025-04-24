@@ -4,14 +4,13 @@ import java.util.Scanner;
 // Submitted By: Tamir Eliasy & Ohad Gips
 public class Main {
 
-
-
 // Submitted By: Tamir Eliasy & Ohad Gips
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter College Name: ");
         String collegeName = sc.nextLine();
         College college = new College(collegeName);
+        double average, averageByDepartment;
         int option;
         do{
             System.out.println("""
@@ -44,13 +43,32 @@ public class Main {
                     college.addLecturerToCommittee(committeeName, lecturerName);
                     break;
                 case 4:
-
                     break;
                 case 5:
                     break;
                 case 6:
+                    college.addDepartment();
                     break;
                 case 7:
+
+                    break;
+                case 8:
+                    average = college.salaryAverage();
+                    break;
+                case 9:
+                    averageByDepartment = college.getSalaryAverageByDepartment();
+                    break;
+                case 10:
+                    college.showDetailsLecturers();
+                    break;
+                case 11:
+                    college.showDetailsCommittees();
+                    break;
+
+
+
+
+                /*case 7:
                     //print all lecturers names
                     System.out.println("Here all the lecturers information:");
                     for(int j =0; j<lecturersSize-1; j++){
@@ -64,9 +82,14 @@ public class Main {
                         System.out.println(committees[j]);
                     }
                     break;
+            */
+
                 default:
                     System.out.println("Invalid input try again");
             }
+
+
+
         }while(option != 0);
         System.out.println("You have left the system");
     }

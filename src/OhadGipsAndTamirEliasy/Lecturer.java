@@ -13,7 +13,9 @@ public class Lecturer {
     private String nameOfDegree;
     private int wage;
     private Department department;
+    private Department department2;
 
+    // Creating a new lecturer without any Class (department=null).
     public Lecturer(String name, int id, Degree kindOfDegree, String nameOfDegree, int wage) {
         setName(name);
         setId(id);
@@ -23,6 +25,8 @@ public class Lecturer {
         this.department=null;
 
     }
+
+    // Creating a new lecturer with Class (department=department).
     public Lecturer(String name, int id, Degree kind_of_degree, String nameOfDegree, int wage, Department department) {
         setName(name);
         setId(id);

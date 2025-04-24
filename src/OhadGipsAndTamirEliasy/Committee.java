@@ -22,6 +22,20 @@ public class Committee {
         lecturersSize = 0;
         lecturers = new Lecturer[1];
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setChairperson(Lecturer chairperson) {
+        if (chairperson.getKindOfDegree() == Lecturer.Degree.Master) {
+            this.chairperson = chairperson;
+        }
+        else{
+            System.out.println("This lecturer can't be a chairperson. chairperson must have a doctoral degree");
+        }
+    }
+
+
     public boolean canBeChairperson(Lecturer lecturer){
         return lecturer.getKindOfDegree() == Lecturer.Degree.Master;
     }
@@ -29,6 +43,7 @@ public class Committee {
     public Lecturer[] getLecturers() {
         return lecturers;
     }
+
     public boolean existsInLecturer(Lecturer lecturer) {
         for (int i = 0; i < lecturersSize; i++) {
             if (lecturers[i] == lecturer) {
@@ -54,20 +69,8 @@ public class Committee {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Lecturer getChairperson() {
         return chairperson;
     }
 
-    public void setChairperson(Lecturer chairperson) {
-        if (chairperson.getKindOfDegree() == Lecturer.Degree.Master) {
-            this.chairperson = chairperson;
-        }
-        else{
-            System.out.println("This lecturer can't be a chairperson. chairperson must have a doctoral degree");
-        }
-    }
 }
