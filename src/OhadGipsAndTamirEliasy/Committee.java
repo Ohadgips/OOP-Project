@@ -30,14 +30,6 @@ public class Committee {
     public void setName(String name) {
         this.name = name;
     }
-    public void setChairperson(Lecturer chairperson) {
-        if (chairperson.getKindOfDegree() == Lecturer.Degree.Master) {
-            this.chairperson = chairperson;
-        }
-        else{
-            System.out.println("This lecturer can't be a chairperson. chairperson must have a doctoral degree");
-        }
-    }
 
 
     public boolean canBeChairperson(Lecturer lecturer){
