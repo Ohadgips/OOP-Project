@@ -9,9 +9,10 @@ public class Main {
 // Submitted By: Tamir Eliasy & Ohad Gips
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enter College Name: ");
-        String collegeName = sc.nextLine();
-        College college = new College(collegeName);
+        //System.out.print("Enter College Name: ");
+       // String collegeName = sc.nextLine();
+       // College college = new College(collegeName);
+        College college = new College();
         int option;
         do{
             System.out.println("""
@@ -19,12 +20,15 @@ public class Main {
                     0- Exit
                     1- Add a lecturer
                     2- Add a committee
-                    3- Add a study department
-                    4- Assign a lecturer to a committee
-                    5- Show the average salary of lecturers in college
-                    6- Show the average salary of lecturers in a committee
-                    7- Show all lecturers information
-                    8- Show all committees information""");
+                    3- Assign a lecturer to a committee
+                    4- Assign a New Chairperson to a committee
+                    5- Remove a lecturer from a committee
+                    6- Add a study department
+                    7- Add a lecturer to a study department
+                    8- Show the average salary of all lecturers in college
+                    9- Show the average salary of lecturers in a committee
+                    10- Show all lecturers information
+                    11- Show all committees information""");
             option = sc.nextInt();
             String lecturerName, committeeName,departmentName;
             sc.nextLine();
@@ -44,25 +48,31 @@ public class Main {
                     college.addLecturerToCommittee(committeeName, lecturerName);
                     break;
                 case 4:
-
+                    System.out.print("Enter committee name: ");
+                    committeeName = sc.nextLine();
+                    System.out.print("Enter lecturer name: ");
+                    lecturerName = sc.nextLine();
+                    college.setNewChairperson(committeeName, lecturerName);
                     break;
                 case 5:
+                    System.out.print("Enter committee name: ");
+                    committeeName = sc.nextLine();
+                    System.out.print("Enter lecturer name: ");
+                    lecturerName = sc.nextLine();
+                    college.removeCommitteeMember(committeeName,lecturerName);
                     break;
                 case 6:
                     break;
-                case 7:
+                case 10:
                     //print all lecturers names
                     System.out.println("Here all the lecturers information:");
-                    for(int j =0; j<lecturersSize-1; j++){
-                        System.out.println(lecturers[j]);
-                    }
+                    college.printLecturers();
                     break;
-                case 8:
+                case 11:
                     // print all committees names
                     System.out.println("Here all the committees information:");
-                    for(int j =0; j<committeeSize-1; j++){
-                        System.out.println(committees[j]);
-                    }
+                    college.printCommitteeLecturers();
+
                     break;
                 default:
                     System.out.println("Invalid input try again");

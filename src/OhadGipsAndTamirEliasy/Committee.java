@@ -6,6 +6,10 @@ public class Committee {
     int lecturersSize;
     Lecturer chairperson;
 
+    public int getLecturersSize() {
+        return lecturersSize;
+    }
+
     public void resizeLecturers() {
         if (lecturersSize >= lecturers.length) {
             Lecturer[] temp = new Lecturer[lecturersSize * 2];
@@ -40,7 +44,7 @@ public class Committee {
 
     public boolean addLecturer(Lecturer lecturer){
         if (existsInLecturer(lecturer)) {
-            System.out.println("Lecturer already exists in this department");
+            System.out.printf("%s already exists in this committee",lecturer.getName());
             return false;
         }
         else {
@@ -49,6 +53,27 @@ public class Committee {
             return true;
         }
     }
+    public boolean removeLecturer(Lecturer lecturer) {
+        boolean lecturerPlace = false;
+        for (int i = 0; i < lecturersSize; i++) {
+            if (lecturerPlace) {
+                lecturers[i - 1] = lecturers[i];
+            } else if (lecturers[i] == lecturer) {
+                lecturerPlace = true;
+                if (i +1 >= lecturersSize) {
+                    lecturers[i] = null;
+                }
+            }
+            lecturersSize--;
+        }
+        if (!lecturerPlace) {
+            System.out.printf("%s already not in this committee", lecturer.getName());
+            return false;
+        }
+        return true;
+    }
+
+
 
     public String getName() {
         return name;
@@ -62,12 +87,14 @@ public class Committee {
         return chairperson;
     }
 
-    public void setChairperson(Lecturer chairperson) {
-        if (chairperson.getKindOfDegree() == Lecturer.Degree.Master) {
+    public boolean setChairperson(Lecturer chairperson) {
+        if (chairperson.getKindOfDegree() == Lecturer.Degree.Doctoral) {
             this.chairperson = chairperson;
+            return true;
         }
         else{
             System.out.println("This lecturer can't be a chairperson. chairperson must have a doctoral degree");
+            return false;
         }
     }
 }
