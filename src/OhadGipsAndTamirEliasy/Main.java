@@ -4,11 +4,10 @@ import java.util.Scanner;
 // Submitted By: Tamir Eliasy & Ohad Gips
 public class Main {
 
-
-
 // Submitted By: Tamir Eliasy & Ohad Gips
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        double average, averageByDepartment;
         //System.out.print("Enter College Name: ");
        // String collegeName = sc.nextLine();
        // College college = new College(collegeName);
@@ -48,6 +47,7 @@ public class Main {
                     college.addLecturerToCommittee(committeeName, lecturerName);
                     break;
                 case 4:
+
                     System.out.print("Enter committee name: ");
                     committeeName = sc.nextLine();
                     System.out.print("Enter lecturer name: ");
@@ -62,21 +62,31 @@ public class Main {
                     college.removeCommitteeMember(committeeName,lecturerName);
                     break;
                 case 6:
+                    college.addDepartment();
                     break;
-                case 10:
-                    //print all lecturers names
-                    System.out.println("Here all the lecturers information:");
-                    college.printLecturers();
-                    break;
-                case 11:
-                    // print all committees names
-                    System.out.println("Here all the committees information:");
-                    college.printCommitteeLecturers();
+                case 7:
 
                     break;
+                case 8:
+                    average = college.salaryAverage();
+                    break;
+                case 9:
+                    averageByDepartment = college.getSalaryAverageByDepartment();
+                    break;
+                case 10:
+                    college.showDetailsLecturers();
+                    break;
+                case 11:
+                    college.showDetailsCommittees();
+                    break;
+
+
                 default:
                     System.out.println("Invalid input try again");
             }
+
+
+
         }while(option != 0);
         System.out.println("You have left the system");
     }
