@@ -7,11 +7,9 @@ public class Main {
 // Submitted By: Tamir Eliasy & Ohad Gips
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        double average, averageByDepartment;
-        //System.out.print("Enter College Name: ");
-       // String collegeName = sc.nextLine();
-       // College college = new College(collegeName);
-        College college = new College();
+        System.out.print("Enter College Name: ");
+        String collegeName = sc.nextLine();
+        College college = new College(collegeName);
         int option;
         do{
             System.out.println("""
@@ -25,7 +23,7 @@ public class Main {
                     6- Add a study department
                     7- Add a lecturer to a study department
                     8- Show the average salary of all lecturers in college
-                    9- Show the average salary of lecturers in a committee
+                    9- Show the average salary of lecturers in a certain department
                     10- Show all lecturers information
                     11- Show all committees information""");
             option = sc.nextInt();
@@ -47,7 +45,6 @@ public class Main {
                     college.addLecturerToCommittee(committeeName, lecturerName);
                     break;
                 case 4:
-
                     System.out.print("Enter committee name: ");
                     committeeName = sc.nextLine();
                     System.out.print("Enter lecturer name: ");
@@ -65,28 +62,27 @@ public class Main {
                     college.addDepartment();
                     break;
                 case 7:
-
+                    System.out.print("Enter department name: ");
+                    departmentName = sc.nextLine();
+                    System.out.print("Enter lecturer name: ");
+                    lecturerName = sc.nextLine();
+                    college.addLecturerToDepartment(lecturerName, departmentName);
                     break;
                 case 8:
-                    average = college.salaryAverage();
+                    System.out.printf("The average wage for lecturers in this college is: %s\n",college.salaryAverage());
                     break;
                 case 9:
-                    averageByDepartment = college.getSalaryAverageByDepartment();
+                    System.out.printf("The average wage for lecturers in this department is: %s\n",college.getSalaryAverageByDepartment());
                     break;
                 case 10:
                     college.showDetailsLecturers();
                     break;
                 case 11:
-                    college.showDetailsCommittees();
+                    college.showDetailsDepartments();
                     break;
-
-
                 default:
                     System.out.println("Invalid input try again");
             }
-
-
-
         }while(option != 0);
         System.out.println("You have left the system");
     }

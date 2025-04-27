@@ -48,10 +48,6 @@ public class Department {
         this.name = name;
     }
 
-    public int getNumOfStudents() {
-        return this.numOfStudents;
-    }
-
     public void setNumOfStudents(int numOfStudents) {
         this.numOfStudents = numOfStudents;
     }
@@ -59,4 +55,8 @@ public class Department {
     public Lecturer[] getLecturers() {
         return lecturers;
     }
+    public int getLecturersSize() {
+        return lecturersSize;
+    }
 }
+

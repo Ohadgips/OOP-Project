@@ -4,54 +4,39 @@ public class Lecturer {
     public enum Degree {
         Bachelor,
         Master,
-        Doctoral;
+        Doctoral
     }
-
+    public static Committee[] resizeCommittees(Committee[] committees) {
+        Committee[] temp = new Committee[committees.length * 2];
+        for (int i = 0; i < committees.length && committees[i] != null; i++) {
+            temp[i] = committees[i];
+        }
+        return temp;
+    }
     private String name;
     private int id;
     private Degree kindOfDegree;
     private String nameOfDegree;
     private int wage;
-    private Department department;
-    private Department department2;
+    private Committee[] committees;
+    private int committeeSize;
 
-    // Creating a new lecturer without any Class (department=null).
+
     public Lecturer(String name, int id, Degree kindOfDegree, String nameOfDegree, int wage) {
         setName(name);
         setId(id);
         setKindOfDegree(kindOfDegree);
         setNameOfDegree(nameOfDegree);
         setWage(wage);
-        this.department=null;
+        this.committees = new Committee[1];
+        committeeSize = 0;
 
     }
 
-    // Creating a new lecturer with Class (department=department).
-    public Lecturer(String name, int id, Degree kind_of_degree, String nameOfDegree, int wage, Department department) {
-        setName(name);
-        setId(id);
-        setKindOfDegree(kind_of_degree);
-        setWage(wage);
-        this.department=department;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
-    //Creating Getters
     public String getName() {
         return name;
     }
 
-
-    public int getId() {
-        return id;
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -77,14 +62,47 @@ public class Lecturer {
         return kindOfDegree;
     }
 
-    public String getNameOfDegree() {
-        return nameOfDegree;
-    }
 
     public int getWage() {
         return wage;
     }
 
+    public void addCommittee(Committee committee) {
+        if (committeeSize >= committees.length) {
+            committees = resizeCommittees(committees);
+        }
+        committees[committeeSize] = committee;
+        committeeSize++;
+    }
+    public void removeCommittee(Committee committee) {
+        boolean lecturerPlace = false;
+        for (int i = 0; i < committeeSize; i++) {
+            if (lecturerPlace)
+                committees[i - 1] = committees[i];
+            else if (committees[i] == committee) {
+                lecturerPlace = true;
+                if (i + 1 >= committeeSize)
+                    committees[i] = null;
+            }
+        }
+        if (lecturerPlace)
+            committeeSize--;
+    }
 
-
+    @Override
+    public String toString() {
+        String details = "Lecturer name is: " + name +
+                "\nHis id is: " + id +
+                "\nKind of Degree is: " + kindOfDegree +
+                "\nName of degree is: " + nameOfDegree +
+                "\nWage is: " + wage +
+                "\nPart of this committees: ";
+        if (committeeSize > 0) {
+            for (int i = 0; i < committeeSize -1; i++) {
+                details += committees[i].getName() + ", ";
+            }
+            return details + committees[committeeSize-1].getName();
+        }
+        return details;
+    }
 }
