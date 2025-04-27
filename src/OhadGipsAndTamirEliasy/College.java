@@ -35,76 +35,84 @@ public class College {
         String input;boolean exists;
         Scanner sc = new Scanner(System.in);
         do {
-            System.out.print("Enter Lecturer Name: ");
+            System.out.print("Enter Lecturer Name (to return enter 'return'): ");
             exists = false;
             input = sc.nextLine();
-            for (int i = 0; i < lecturersSize; i++) {
-                if (lecturers[i].getName().equals(input)) {
-                    System.out.println("\nThis name is already in use. Try a different name");
-                    exists = true;
-                    break;
+            if (!input.equals("return")){
+                for (int i = 0; i < lecturersSize; i++) {
+                    if (lecturers[i].getName().equals(input)) {
+                        System.out.println("\nThis name is already in use. Try a different name");
+                        exists = true;
+                        break;
+                    }
                 }
             }
         } while (exists);
-        System.out.print("\nEnter lecturer ID: ");
-        int id = sc.nextInt();
-        sc.nextLine();
-        System.out.print("\nEnter kind of degree (Bachelor, Master, Doctoral): ");
-        Lecturer.Degree kindOfDegree = Lecturer.Degree.valueOf(sc.nextLine());
-        System.out.print("\nEnter name of degree: ");
-        String degreeName = sc.nextLine();
-        System.out.print("\nEnter lecturer wage: ");
-        int wage = sc.nextInt();
+        if (!input.equals("return")) {
+            System.out.print("\nEnter lecturer ID: ");
+            int id = sc.nextInt();
+            sc.nextLine();
+            System.out.print("\nEnter kind of degree (Bachelor, Master, Doctoral): ");
+            Lecturer.Degree kindOfDegree = Lecturer.Degree.valueOf(sc.nextLine());
+            System.out.print("\nEnter name of degree: ");
+            String degreeName = sc.nextLine();
+            System.out.print("\nEnter lecturer wage: ");
+            int wage = sc.nextInt();
 
-        if (lecturersSize >= lecturers.length)
-           lecturers = Committee.resizeLecturers(lecturers);
+            if (lecturersSize >= lecturers.length)
+                lecturers = Committee.resizeLecturers(lecturers);
 
-        lecturers[lecturersSize] = new Lecturer(input, id, kindOfDegree, degreeName, wage);
-        lecturersSize++;
+            lecturers[lecturersSize] = new Lecturer(input, id, kindOfDegree, degreeName, wage);
+            lecturersSize++;
+        }
     }
 
     public void addCommittee() {
-        boolean exists;
-        String chairpersonName, name;
-        Lecturer chairperson;
-        Scanner sc = new Scanner(System.in);
+        // without a doctoral lecturer you cannot create a committee
+        if (HasDoctoralLecturer()) {
+            boolean exists;
+            String chairpersonName, name;
+            Lecturer chairperson = null;
+            Scanner sc = new Scanner(System.in);
 
-        do {
-            System.out.print("Enter committee name: ");
-            exists = false;
-            name = sc.nextLine();
-
-            for (int i = 0; i < committeeSize; i++) {
-                if (committees[i].getName().equals(name)) {
-                    System.out.println("\nThis committee is already exists. Try a different name");
+            do {
+                System.out.print("Enter committee name (to return enter 'return'): ");
+                exists = false;
+                name = sc.nextLine();
+                if (!name.equals("return")) {
+                    for (int i = 0; i < committeeSize; i++) {
+                        if (committees[i].getName().equals(name)) {
+                            System.out.println("\nThis committee is already exists. Try a different name");
+                            exists = true;
+                            break;
+                        }
+                    }
+                }
+            } while (exists);
+            if (!name.equals("return")) {
+                do {
+                    System.out.print("Enter chairperson name (to return enter 'return'): ");
                     exists = true;
-                    break;
+                    chairpersonName = sc.nextLine();
+                    chairperson = getLecturer(chairpersonName);
+                    if (chairperson != null) {
+                        if (chairperson.getKindOfDegree() == Lecturer.Degree.Doctoral) {
+                            exists = false;
+                        } else {
+                            System.out.println("\nThis lecturer does not meet the requirements");
+                        }
+                    }
+
+                } while (exists);
+                if (committeeSize >= committees.length) {
+                    committees = Lecturer.resizeCommittees(committees);
                 }
+                committees[committeeSize] = new Committee(name, chairperson);
+                chairperson.addCommittee(committees[committeeSize]);
+                committeeSize++;
+                System.out.printf("%s has been created, %s it is chairperson\n", name, chairpersonName);
             }
-        } while (exists);
-
-        do {
-            System.out.print("Enter chairperson name: ");
-            exists = true;
-            chairpersonName = sc.nextLine();
-            chairperson = getLecturer(chairpersonName);
-            if (chairperson != null) {
-                if (chairperson.getKindOfDegree() == Lecturer.Degree.Doctoral) {
-                    exists = false;
-                } else {
-                    System.out.println("\nThis lecturer does not meet the requirements");
-                }
-            }
-        } while (exists);
-
-        if (committeeSize >= committees.length) {
-             committees = Lecturer.resizeCommittees(committees);
-        }
-
-        committees[committeeSize] = new Committee(name, chairperson);
-        chairperson.addCommittee(committees[committeeSize]);
-        committeeSize++;
-        System.out.printf("%s has been created, %s it is chairperson\n",name,chairpersonName);
+        } else System.out.println("There are no doctoral lecturers in the college to create a committee");
 
     }
 
@@ -152,6 +160,13 @@ public class College {
             }
         }
     }
+    public boolean HasDoctoralLecturer() {
+        for (int i = 0; i < lecturersSize; i++) {
+            if(lecturers[i].getKindOfDegree() == Lecturer.Degree.Doctoral)
+                return true;
+        }
+        return false;
+    }
     public void removeCommitteeMember(String committeeName,String lecturerName) {
         Committee committee = getCommittee(committeeName);
         if (committee != null)
@@ -180,27 +195,30 @@ public class College {
         Scanner sc = new Scanner(System.in);
         boolean exists;
         do {
-            System.out.print("Enter department name: ");
+            System.out.print("Enter department name (to return enter 'return'): ");
             departmentName = sc.nextLine();
             exists = false;
-
-            for (int i = 0; i < departmentsSize; i++) {
-                if (departments[i].getName().equalsIgnoreCase(departmentName)) {
-                    System.out.println("This department already exists. Try a different name.");
-                    exists = true;
-                    break;
+            if (!departmentName.equals("return")) {
+                for (int i = 0; i < departmentsSize; i++) {
+                    if (departments[i].getName().equalsIgnoreCase(departmentName)) {
+                        System.out.println("This department already exists. Try a different name.");
+                        exists = true;
+                        break;
+                    }
                 }
             }
         } while (exists);
-
+        if (!departmentName.equals("return")) {
         System.out.print("Enter number of students in the department: ");
         int numOfStudents = sc.nextInt();
 
         if (departmentsSize >= departments.length) {
             resizeDepartments();
         }
+
         departments[departmentsSize++] = new Department(departmentName, numOfStudents);
         System.out.printf("%s department was added successfully.\n",departmentName);
+        }
 
     }
     public void addLecturerToDepartment(String lecturerName,String departmentName) {
@@ -208,9 +226,13 @@ public class College {
         if (department != null) {
             Lecturer lecturer = getLecturer(lecturerName);
             if (lecturer != null) {
-                if (department.addLecturer(lecturer)){
-
+                if(lecturer.getDepartment() == null) {
+                    department.addLecturer(lecturer);
+                    lecturer.setDepartment(department);
                     System.out.printf("%s has been added to the department\n", lecturerName);
+                }
+                else {
+                    System.out.printf("%s is already part of department\n", lecturerName);
                 }
             }
         }

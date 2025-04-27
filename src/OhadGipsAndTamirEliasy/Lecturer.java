@@ -18,6 +18,7 @@ public class Lecturer {
     private Degree kindOfDegree;
     private String nameOfDegree;
     private int wage;
+    private Department department;
     private Committee[] committees;
     private int committeeSize;
 
@@ -30,6 +31,7 @@ public class Lecturer {
         setWage(wage);
         this.committees = new Committee[1];
         committeeSize = 0;
+        department = null;
 
     }
 
@@ -89,6 +91,14 @@ public class Lecturer {
             committeeSize--;
     }
 
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
     @Override
     public String toString() {
         String details = "Lecturer name is: " + name +
@@ -96,6 +106,7 @@ public class Lecturer {
                 "\nKind of Degree is: " + kindOfDegree +
                 "\nName of degree is: " + nameOfDegree +
                 "\nWage is: " + wage +
+                "\nDepartment is: " + department +
                 "\nPart of this committees: ";
         if (committeeSize > 0) {
             for (int i = 0; i < committeeSize -1; i++) {

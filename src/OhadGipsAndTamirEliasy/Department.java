@@ -29,16 +29,10 @@ public class Department {
         return false;
     }
 
-    public boolean addLecturer(Lecturer lecturer){
+    public void addLecturer(Lecturer lecturer){
         resizeLecturers();
-        if (existsInLecturer(lecturer)) {
-            System.out.println("Lecturer already exists in this department");
-            return false;
-        }
-        else {
-            lecturers[lecturersSize++] = lecturer;
-            return true;
-        }
+        lecturers[lecturersSize] = lecturer;
+        lecturersSize++;
     }
     public String getName() {
         return this.name;
