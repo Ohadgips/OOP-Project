@@ -1,10 +1,9 @@
 package OhadGipsAndTamirEliasy;
 
 import java.util.Scanner;
-// Submitted By: Tamir Eliasy & Ohad Gips
+// Submitted By: Tamir Eliasy 216430298 & Ohad Gips 215426883
 public class Main {
-
-// Submitted By: Tamir Eliasy & Ohad Gips
+    // Submitted By: Tamir Eliasy 216430298 & Ohad Gips 215426883
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter College Name: ");

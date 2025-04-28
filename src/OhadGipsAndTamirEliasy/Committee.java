@@ -2,18 +2,18 @@ package OhadGipsAndTamirEliasy;
 
 
 public class Committee {
+    public static Lecturer[] resizeLecturers(Lecturer[] lecturers) {
+        Lecturer[] temp = new Lecturer[lecturers.length * 2];
+        for (int i = 0; i < lecturers.length && lecturers[i] != null; i++) {
+            temp[i] = lecturers[i];
+        }
+        return temp;
+    }
+
     String name;
     Lecturer[] lecturers;
     int lecturersSize;
     Lecturer chairperson;
-
-    public static Lecturer[] resizeLecturers(Lecturer[] lecturers) {
-            Lecturer[] temp = new Lecturer[lecturers.length * 2];
-            for (int i = 0; i < lecturers.length && lecturers[i] != null; i++) {
-                temp[i] = lecturers[i];
-            }
-            return temp;
-    }
 
     public Committee(String name,Lecturer chairperson) {
         setChairperson(chairperson);
@@ -22,12 +22,23 @@ public class Committee {
         lecturers = new Lecturer[1];
     }
 
-
     public void setName(String name) {
         this.name = name;
     }
+    public void setLecturers(Lecturer[] lecturers) {
+        this.lecturers = lecturers;
+    }
+    public String getName() {
+        return name;
+    }
+    public Lecturer getChairperson() {
+        return chairperson;
+    }
 
-
+    public boolean setChairperson(Lecturer chairperson) {
+        this.chairperson = chairperson;
+        return true;
+    }
     public boolean canBeChairperson(Lecturer lecturer) {
         if (lecturer.getKindOfDegree() == Lecturer.Degree.Doctoral) return true;
         else {
@@ -44,11 +55,6 @@ public class Committee {
         }
         return false;
     }
-
-    public void setLecturers(Lecturer[] lecturers) {
-        this.lecturers = lecturers;
-    }
-
     public boolean addLecturer(Lecturer lecturer){
         if (existsInLecturer(lecturer)) {
             System.out.printf("%s already exists in this committee",lecturer.getName());
@@ -81,21 +87,6 @@ public class Committee {
         }
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public Lecturer getChairperson() {
-        return chairperson;
-    }
-
-    public boolean setChairperson(Lecturer chairperson) {
-            this.chairperson = chairperson;
-            return true;
-    }
-
-
-    @Override
     public String toString() {
         String details = "Committee name is: " + name + "\nChairperson is: " + chairperson.getName() + "\nThe lecturers in this committee are: ";
         if (lecturersSize > 0) {

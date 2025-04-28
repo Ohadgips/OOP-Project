@@ -19,10 +19,10 @@ public class College {
         lecturersSize = 0;
         departmentsSize = 0;
     }
-
     public void setCollegeName(String collegeName) {
         this.collegeName = collegeName;
     }
+
     public Lecturer getLecturer(String lecturerName) {
         for (int i = 0; i < lecturersSize; i++) {
             if (lecturers[i].getName().equals(lecturerName))
@@ -115,7 +115,6 @@ public class College {
         } else System.out.println("There are no doctoral lecturers in the college to create a committee");
 
     }
-
     public Committee getCommittee(String committeeName) {
         for (int i = 0; i < committeeSize; i++) {
             if (committeeName.equals(committees[i].getName()))
@@ -181,6 +180,7 @@ public class College {
         }
 
     }
+
     public void resizeDepartments() {
         if (departmentsSize >= departments.length) {
             Department[] temp = new Department[departmentsSize * 2];
@@ -189,6 +189,14 @@ public class College {
             }
             departments = temp;
         }
+    }
+    public Department getDepartment(String departmentName) {
+        for (int i = 0; i < departmentsSize; i++) {
+            if (departmentName.equals(departments[i].getName()))
+                return departments[i];
+        }
+        System.out.printf("%s does not exist\n", departmentName);
+        return null;
     }
     public void addDepartment(){
         String departmentName;
@@ -226,13 +234,24 @@ public class College {
         if (department != null) {
             Lecturer lecturer = getLecturer(lecturerName);
             if (lecturer != null) {
-                if(lecturer.getDepartment() == null) {
-                    department.addLecturer(lecturer);
-                    lecturer.setDepartment(department);
-                    System.out.printf("%s has been added to the department\n", lecturerName);
+                String input = "";
+                if(lecturer.getDepartment() != null) {
+                    do {
+                        System.out.printf("%s is already part of department. do you want to change his department? (yes / no): ", lecturerName);
+                        Scanner sc = new Scanner(System.in);
+                        input = sc.nextLine();
+                    } while (!(input.equals("yes") || input.equals("no")));
+                    System.out.println(input);
+                    if (input.equals("yes")){
+                        lecturer.getDepartment().removeLecturer(lecturer);
+                    }
+                    else System.out.println("lecturer has not been added to the department");
                 }
-                else {
-                    System.out.printf("%s is already part of department\n", lecturerName);
+                if (lecturer.getDepartment() == null || input.equals("yes")) {
+                        department.addLecturer(lecturer);
+                        lecturer.setDepartment(department);
+                        System.out.printf("%s has been added to the department\n", lecturerName);
+
                 }
             }
         }
@@ -249,14 +268,7 @@ public class College {
 
         return (double) average / lecturersSize;
     }
-    public Department getDepartment(String departmentName) {
-        for (int i = 0; i < departmentsSize; i++) {
-            if (departmentName.equals(departments[i].getName()))
-                return departments[i];
-        }
-        System.out.printf("%s does not exist\n", departmentName);
-        return null;
-    }
+
     public double getSalaryAverageByDepartment(){
         String departmentName;
         Scanner sc = new Scanner(System.in);
@@ -276,14 +288,12 @@ public class College {
         return (double) salaryTotal / department.getLecturersSize();
         }
     }
-
     public void showDetailsLecturers(){
         System.out.println("Here all the lecturers:");
         for(int i = 0; i < lecturersSize; i++){
             System.out.println(lecturers[i].toString()+"\n");
         }
     }
-
     public void showDetailsDepartments() {
         System.out.println("Here all the committees:");
         for (int i = 0; i < committeeSize; i++) {

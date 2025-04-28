@@ -13,6 +13,7 @@ public class Lecturer {
         }
         return temp;
     }
+
     private String name;
     private int id;
     private Degree kindOfDegree;
@@ -38,35 +39,32 @@ public class Lecturer {
     public String getName() {
         return name;
     }
-
-
     public void setName(String name) {
         this.name = name;
     }
-
     public void setId(int id) {
         this.id = id;
     }
-
     public void setKindOfDegree(Degree KindOfDegree) {
         this.kindOfDegree = KindOfDegree;
     }
-
     public void setNameOfDegree(String nameOfDegree) {
         this.nameOfDegree = nameOfDegree;
     }
-
     public void setWage(int wage) {
         this.wage = wage;
     }
-
     public Degree getKindOfDegree() {
         return kindOfDegree;
     }
-
-
     public int getWage() {
         return wage;
+    }
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+    public Department getDepartment() {
+        return department;
     }
 
     public void addCommittee(Committee committee) {
@@ -91,22 +89,13 @@ public class Lecturer {
             committeeSize--;
     }
 
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    @Override
     public String toString() {
         String details = "Lecturer name is: " + name +
                 "\nHis id is: " + id +
                 "\nKind of Degree is: " + kindOfDegree +
                 "\nName of degree is: " + nameOfDegree +
                 "\nWage is: " + wage +
-                "\nDepartment is: " + department +
+                "\nDepartment is: " + department.getName() +
                 "\nPart of this committees: ";
         if (committeeSize > 0) {
             for (int i = 0; i < committeeSize -1; i++) {
