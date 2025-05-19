@@ -40,9 +40,9 @@ public class Committee {
         return true;
     }
     public boolean canBeChairperson(Lecturer lecturer) {
-        if (lecturer.getKindOfDegree() == Lecturer.Degree.Doctoral) return true;
+        if (lecturer.getKindOfDegree() == Lecturer.Degree.Doctoral || lecturer.getKindOfDegree() == Lecturer.Degree.Professional) return true;
         else {
-            System.out.println("This lecturer can't be a chairperson. chairperson must have a doctoral degree;");
+            System.out.println("This lecturer can't be a chairperson. chairperson must be a doctor or professor;");
             return false;
         }
     }

@@ -52,7 +52,7 @@ public class College {
             System.out.print("\nEnter lecturer ID: ");
             int id = sc.nextInt();
             sc.nextLine();
-            System.out.print("\nEnter kind of degree (Bachelor, Master, Doctoral): ");
+            System.out.print("\nEnter kind of degree (Bachelor, Master, Doctoral, Professional): ");
             Lecturer.Degree kindOfDegree = Lecturer.Degree.valueOf(sc.nextLine());
             System.out.print("\nEnter name of degree: ");
             String degreeName = sc.nextLine();
@@ -96,7 +96,7 @@ public class College {
                     chairpersonName = sc.nextLine();
                     chairperson = getLecturer(chairpersonName);
                     if (chairperson != null) {
-                        if (chairperson.getKindOfDegree() == Lecturer.Degree.Doctoral) {
+                        if (chairperson.getKindOfDegree() == Lecturer.Degree.Doctoral || chairperson.getKindOfDegree() == Lecturer.Degree.Professional) {
                             exists = false;
                         } else {
                             System.out.println("\nThis lecturer does not meet the requirements");
@@ -161,7 +161,7 @@ public class College {
     }
     public boolean HasDoctoralLecturer() {
         for (int i = 0; i < lecturersSize; i++) {
-            if(lecturers[i].getKindOfDegree() == Lecturer.Degree.Doctoral)
+            if(lecturers[i].getKindOfDegree() == Lecturer.Degree.Doctoral || lecturers[i].getKindOfDegree() == Lecturer.Degree.Professional)
                 return true;
         }
         return false;
