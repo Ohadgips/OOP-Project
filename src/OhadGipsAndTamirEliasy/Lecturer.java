@@ -4,7 +4,8 @@ public class Lecturer {
     public enum Degree {
         Bachelor,
         Master,
-        Doctoral
+        Doctoral,
+        Professional
     }
     public static Committee[] resizeCommittees(Committee[] committees) {
         Committee[] temp = new Committee[committees.length * 2];
