@@ -24,7 +24,10 @@ public class Main {
                     8- Show the average salary of all lecturers in college
                     9- Show the average salary of lecturers in a certain department
                     10- Show all lecturers information
-                    11- Show all committees information""");
+                    11- Show all committees information
+                    12 - Compare between professors
+                    13 - Compare between committees
+                    14 - Duplicate committee""");
             option = sc.nextInt();
             String lecturerName, committeeName,departmentName;
             sc.nextLine();
@@ -78,6 +81,12 @@ public class Main {
                     break;
                 case 11:
                     college.showDetailsDepartments();
+                    break;
+                case 12:
+                    break;
+                case 13:
+                    break;
+                case 14:
                     break;
                 default:
                     System.out.println("Invalid input try again");
