@@ -337,4 +337,20 @@ public class College {
     }
 
     public void CompareDoctors(String nameDoctor1, String nameDoctor2) {}
+
+    public String toString(){
+        String details = "College name is: " + collegeName +"\nCollege lecturers details:\n ";
+        for (int i = 0; i < lecturersSize; i++) {
+            details += lecturers[i].toString()+"\n";
+        }
+        details += "College Committees details:\n ";
+        for (int i = 0; i < committeeSize; i++) {
+            details += committees[i].toString()+"\n";
+        }
+        details += "College Departments details:\n ";
+        for (int i = 0; i < departmentsSize; i++) {
+            details += departments[i].toString()+"\n";
+        }
+        return details;
+    }
 }

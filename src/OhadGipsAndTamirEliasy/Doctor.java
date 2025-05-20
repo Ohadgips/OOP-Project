@@ -16,4 +16,17 @@ public class Doctor extends Lecturer{
     public void setArticles(String[] articles) {
         this.articles = articles;
     }
+
+    @Override
+    public String toString() {
+        String details = super.toString();
+        details += "\nHis Articles: ";
+        if (articlesSize > 0) {
+            for (int i = 0; i < articlesSize - 1; i++) {
+                details += articles[i] + ", ";
+            }
+            return details + articles[articlesSize - 1];
+        }
+        return details;
+    }
 }

@@ -14,4 +14,10 @@ public class Professor extends Doctor{
     public void setProfessorshipPlace(String professorshipPlace) {
         this.professorshipPlace = professorshipPlace;
     }
+    @Override
+    public String toString() {
+        String details = super.toString();
+        details += "\nPlace that gave him the professorship is: " + getProfessorshipPlace() ;
+        return details;
+    }
 }

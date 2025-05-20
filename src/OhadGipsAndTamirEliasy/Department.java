@@ -38,6 +38,10 @@ public class Department {
         lecturersSize++;
     }
 
+    public int getNumOfStudents() {
+        return numOfStudents;
+    }
+
     public void removeLecturer(Lecturer lecturer) {
         boolean lecturerPlace = false;
         for (int i = 0; i < lecturersSize; i++) {
@@ -51,6 +55,17 @@ public class Department {
         }
         if (lecturerPlace)
             lecturersSize--;
+    }
+    public String toString() {
+        String details = "Department name is: " + getName()
+                + "\nNumber Of Students: "+ getNumOfStudents() +
+                "\nLecturers in this department: ";
+        if(getLecturersSize() > 0) {
+            for (int i = 0; i < getLecturersSize() - 1; i++)
+                details = details + getLecturers()[i].getName() + " ,";
+            return details + getLecturers()[getLecturersSize() - 1].getName();
+        }
+        return details;
     }
 }
 
