@@ -1,5 +1,6 @@
 package OhadGipsAndTamirEliasy;
 
+import javax.print.Doc;
 import java.util.Scanner;
 // Submitted By: Tamir Eliasy 216430298 & Ohad Gips 215426883
 public class Main {
@@ -24,7 +25,10 @@ public class Main {
                     8- Show the average salary of all lecturers in college
                     9- Show the average salary of lecturers in a certain department
                     10- Show all lecturers information
-                    11- Show all committees information""");
+                    11- Show all committees information
+                    12 - Compare between professors
+                    13 - Compare between committees
+                    14 - Duplicate committee""");
             option = sc.nextInt();
             String lecturerName, committeeName,departmentName;
             sc.nextLine();
@@ -78,6 +82,17 @@ public class Main {
                     break;
                 case 11:
                     college.showDetailsDepartments();
+                    break;
+                case 12:
+                    System.out.print("Enter first doctor name: ");
+                    String doctor1Name = sc.nextLine();
+                    System.out.print("Enter second doctor name: ");
+                    String doctor2Name = sc.nextLine();
+                    college.CompareDoctors((Doctor) college.getLecturer(doctor1Name),(Doctor) college.getLecturer(doctor2Name));
+                    break;
+                case 13:
+                    break;
+                case 14:
                     break;
                 default:
                     System.out.println("Invalid input try again");

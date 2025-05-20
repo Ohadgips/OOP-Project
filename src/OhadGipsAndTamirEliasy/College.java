@@ -23,6 +23,14 @@ public class College {
         this.collegeName = collegeName;
     }
 
+    public String[] resizeArray(String[] array,int newSize) {
+        String[] temp = new String[newSize*2];
+        for (int i = 0; i < newSize; i++) {
+            temp[i] = array[i];
+        }
+        return temp;
+    }
+
     public Lecturer getLecturer(String lecturerName) {
         for (int i = 0; i < lecturersSize; i++) {
             if (lecturers[i].getName().equals(lecturerName))
@@ -62,7 +70,34 @@ public class College {
             if (lecturersSize >= lecturers.length)
                 lecturers = Committee.resizeLecturers(lecturers);
 
-            lecturers[lecturersSize] = new Lecturer(input, id, kindOfDegree, degreeName, wage);
+            if (Lecturer.Degree.Doctoral.equals(kindOfDegree) || Lecturer.Degree.Professional.equals(kindOfDegree)) {
+                String string = " ";
+                String[] articles = new String[1]; int articlesSize = 0;
+                do {
+                    System.out.print("\nEnter articles name (enter to stop): ");
+                    string = sc.nextLine();
+                    if (!string.equals("\n"))
+                    {
+                        if (articlesSize >= articles.length){
+                            articles = resizeArray(articles,articlesSize);
+                        }
+                        articles[articlesSize] = string;
+                        articlesSize++;
+                    }
+                } while (string != " \n");
+
+                if (Lecturer.Degree.Professional.equals(kindOfDegree)) {
+                    sc.nextLine();
+                    System.out.print("\nEnter place that gave the degree of this professor: ");
+                    String professorName = sc.nextLine();
+                    lecturers[lecturersSize] = new Professor(input, id, kindOfDegree, degreeName, wage, professorName, articles, articlesSize);
+                }
+                else
+                    lecturers[lecturersSize] = new Doctor(input, id, kindOfDegree, degreeName, wage,articles,articlesSize);
+
+            }
+            else
+                lecturers[lecturersSize] = new Lecturer(input, id, kindOfDegree, degreeName, wage);
             lecturersSize++;
         }
     }
@@ -301,4 +336,34 @@ public class College {
         }
     }
 
+    public void CompareDoctors(Doctor Doctor1, Doctor Doctor2) {
+        if (Doctor1.getArticlesSize() >= Doctor2.getArticlesSize()) {
+            if (Doctor1.getArticlesSize() == Doctor2.getArticlesSize()) {
+                System.out.printf("%s and %s have the same number of articles\n",Doctor1.getName(),Doctor2.getName());
+
+            }
+            else {
+                System.out.printf("%s has more articles in compare to %s\n",Doctor1.getName(),Doctor2.getName());
+            }
+        }
+        else {
+            System.out.printf("%s has less articles in compare to %s\n",Doctor1.getName(),Doctor2.getName());
+        }
+    }
+
+    public String toString(){
+        String details = "College name is: " + collegeName +"\nCollege lecturers details:\n ";
+        for (int i = 0; i < lecturersSize; i++) {
+            details += lecturers[i].toString()+"\n";
+        }
+        details += "College Committees details:\n ";
+        for (int i = 0; i < committeeSize; i++) {
+            details += committees[i].toString()+"\n";
+        }
+        details += "College Departments details:\n ";
+        for (int i = 0; i < departmentsSize; i++) {
+            details += departments[i].toString()+"\n";
+        }
+        return details;
+    }
 }

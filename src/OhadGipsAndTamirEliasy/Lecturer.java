@@ -15,14 +15,14 @@ public class Lecturer {
         return temp;
     }
 
-    private String name;
-    private int id;
-    private Degree kindOfDegree;
-    private String nameOfDegree;
-    private int wage;
-    private Department department;
-    private Committee[] committees;
-    private int committeeSize;
+    protected String name;
+    protected int id;
+    protected Degree kindOfDegree;
+    protected String nameOfDegree;
+    protected int wage;
+    protected Department department;
+    protected Committee[] committees;
+    protected int committeeSize;
 
 
     public Lecturer(String name, int id, Degree kindOfDegree, String nameOfDegree, int wage) {
