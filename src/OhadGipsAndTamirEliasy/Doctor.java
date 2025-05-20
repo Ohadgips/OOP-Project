@@ -17,6 +17,10 @@ public class Doctor extends Lecturer{
         this.articles = articles;
     }
 
+    public int getArticlesSize() {
+        return articlesSize;
+    }
+
     @Override
     public String toString() {
         String details = super.toString();

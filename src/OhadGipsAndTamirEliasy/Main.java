@@ -1,5 +1,6 @@
 package OhadGipsAndTamirEliasy;
 
+import javax.print.Doc;
 import java.util.Scanner;
 // Submitted By: Tamir Eliasy 216430298 & Ohad Gips 215426883
 public class Main {
@@ -83,6 +84,11 @@ public class Main {
                     college.showDetailsDepartments();
                     break;
                 case 12:
+                    System.out.print("Enter first doctor name: ");
+                    String doctor1Name = sc.nextLine();
+                    System.out.print("Enter second doctor name: ");
+                    String doctor2Name = sc.nextLine();
+                    college.CompareDoctors((Doctor) college.getLecturer(doctor1Name),(Doctor) college.getLecturer(doctor2Name));
                     break;
                 case 13:
                     break;

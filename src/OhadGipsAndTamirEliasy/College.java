@@ -336,7 +336,20 @@ public class College {
         }
     }
 
-    public void CompareDoctors(String nameDoctor1, String nameDoctor2) {}
+    public void CompareDoctors(Doctor Doctor1, Doctor Doctor2) {
+        if (Doctor1.getArticlesSize() >= Doctor2.getArticlesSize()) {
+            if (Doctor1.getArticlesSize() == Doctor2.getArticlesSize()) {
+                System.out.printf("%s and %s have the same number of articles\n",Doctor1.getName(),Doctor2.getName());
+
+            }
+            else {
+                System.out.printf("%s has more articles in compare to %s\n",Doctor1.getName(),Doctor2.getName());
+            }
+        }
+        else {
+            System.out.printf("%s has less articles in compare to %s\n",Doctor1.getName(),Doctor2.getName());
+        }
+    }
 
     public String toString(){
         String details = "College name is: " + collegeName +"\nCollege lecturers details:\n ";
