@@ -39,34 +39,31 @@ public class Committee {
         this.chairperson = chairperson;
         return true;
     }
-    public boolean canBeChairperson(Lecturer lecturer) {
-        if (lecturer.getKindOfDegree() == Lecturer.Degree.Doctoral || lecturer.getKindOfDegree() == Lecturer.Degree.Professional) return true;
+    public boolean canBeChairperson(Lecturer lecturer) throws CommitteeException {
+        if (lecturer.getKindOfDegree() == Lecturer.Degree.Doctoral || lecturer.getKindOfDegree() == Lecturer.Degree.Professional)
+            return true;
         else {
-            System.out.println("This lecturer can't be a chairperson. chairperson must be a doctor or professor;");
-            return false;
+            throw new CommitteeException();
         }
     }
 
-    public boolean existsInLecturer(Lecturer lecturer) {
+    public boolean existsInLecturer(Lecturer lecturer) throws AlreadyInCommitteeExeception {
         for (int i = 0; i < lecturersSize; i++) {
             if (lecturers[i] == lecturer) {
                 return true;
             }
         }
-        return false;
+        throw new AlreadyInCommitteeExeception(lecturer.getName());
     }
-    public boolean addLecturer(Lecturer lecturer){
-        if (existsInLecturer(lecturer)) {
-            System.out.printf("%s already exists in this committee",lecturer.getName());
-            return false;
-        }
-        else {
+    public boolean addLecturer(Lecturer lecturer) throws AlreadyInCommitteeExeception {
+        if (!existsInLecturer(lecturer)) {
             if (lecturers.length <= lecturersSize)
                 setLecturers(resizeLecturers(lecturers));
             lecturers[lecturersSize] = lecturer;
             lecturersSize++;
             return true;
         }
+        return false;
     }
     public boolean removeLecturer(Lecturer lecturer) {
         boolean lecturerPlace = false;
