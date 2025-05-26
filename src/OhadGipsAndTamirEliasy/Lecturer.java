@@ -106,4 +106,21 @@ public class Lecturer {
         }
         return details;
     }
+
+    @Override
+    public boolean equals(Object obj) { // the function return true if it is the same
+        if (obj == null) return false;
+        else if (!(obj instanceof Lecturer)) return false;
+        else {
+            Lecturer other = (Lecturer) obj;
+            if (committeeSize != other.committeeSize) return false;
+            else if (!name.equals(other.name)) return false;
+            else if (kindOfDegree != other.kindOfDegree) return false;
+            else if (!nameOfDegree.equals(other.nameOfDegree)) return false;
+            else if (id != other.id) return false;
+            else if (!department.equals(other.department)) return false;
+            else if (wage != other.wage) return false;
+            else return true;
+        }
+    }
 }

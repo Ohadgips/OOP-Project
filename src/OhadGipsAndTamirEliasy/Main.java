@@ -91,8 +91,16 @@ public class Main {
                     college.CompareDoctors((Doctor) college.getLecturer(doctor1Name),(Doctor) college.getLecturer(doctor2Name));
                     break;
                 case 13:
+                    System.out.print("Enter committee name to duplicate: ");
+                    committeeName = sc.nextLine();
+                    college.duplicateCommittee(committeeName);
                     break;
                 case 14:
+                    System.out.print("Enter lecturerName to remove: ");
+                    lecturerName = sc.nextLine();
+                    System.out.print("Enter committee name remove from :: ");
+                    committeeName = sc.nextLine();
+                    college.removeLecturerName(lecturerName, committeeName);
                     break;
                 default:
                     System.out.println("Invalid input try again");

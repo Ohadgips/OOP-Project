@@ -5,6 +5,7 @@ public class Department {
     int numOfStudents;
     Lecturer[] lecturers;
     int lecturersSize;
+
     public Department(String name, int numOfStudents) {
         setName(name);
         setNumOfStudents(numOfStudents);
@@ -67,5 +68,23 @@ public class Department {
         }
         return details;
     }
+
+    @Override
+    public boolean equals(Object obj) { // the function return true if it is the same
+        if (obj == null) return false;
+        else if (!(obj instanceof Department)) return false;
+        else {
+            Department other = (Department) obj;
+            if (!name.equals(other.name)) return false;
+            else if (numOfStudents != other.numOfStudents) return false;
+            else if (lecturersSize != other.lecturersSize) return false;
+            else if (!lecturers[0].equals(other.lecturers[0])) return false;
+            return true;
+        }
+    }
+
+
+
+
 }
 

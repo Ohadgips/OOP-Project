@@ -47,6 +47,7 @@ public class Committee {
         }
     }
 
+
     public boolean existsInLecturer(Lecturer lecturer) {
         for (int i = 0; i < lecturersSize; i++) {
             if (lecturers[i] == lecturer) {
@@ -55,18 +56,16 @@ public class Committee {
         }
         return false;
     }
-    public boolean addLecturer(Lecturer lecturer){
+    public boolean addLecturer(Lecturer lecturer) {
         if (existsInLecturer(lecturer)) {
-            System.out.printf("%s already exists in this committee",lecturer.getName());
-            return false;
+            throw new IllegalArgumentException(lecturer.getName() + " is already in the committee");
         }
-        else {
-            if (lecturers.length <= lecturersSize)
-                setLecturers(resizeLecturers(lecturers));
-            lecturers[lecturersSize] = lecturer;
-            lecturersSize++;
-            return true;
-        }
+        if (lecturers.length <= lecturersSize)
+            setLecturers(resizeLecturers(lecturers));
+
+        lecturers[lecturersSize] = lecturer;
+        lecturersSize++;
+        return true;
     }
     public boolean removeLecturer(Lecturer lecturer) {
         boolean lecturerPlace = false;
@@ -97,4 +96,19 @@ public class Committee {
         }
         return details;
     }
+
+    @Override
+    public boolean equals(Object obj) { // the function return true if it is the same
+        if (obj == null) return false;
+        else if (!(obj instanceof Committee)) return false;
+        else {
+            Committee other = (Committee) obj;
+            if (!name.equals(other.name)) return false;
+            else if (!chairperson.equals(other.chairperson)) return false;
+            else if (lecturersSize != other.lecturersSize) return false;
+            else if (!lecturers[0].equals(other.lecturers[0])) return false;
+            return true;
+        }
+    }
+
 }
