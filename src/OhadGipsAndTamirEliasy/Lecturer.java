@@ -76,17 +76,17 @@ public class Lecturer {
         committeeSize++;
     }
     public void removeCommittee(Committee committee) {
-        boolean lecturerPlace = false;
+        boolean committeePlace = false;
         for (int i = 0; i < committeeSize; i++) {
-            if (lecturerPlace)
+            if (committeePlace)
                 committees[i - 1] = committees[i];
             else if (committees[i] == committee) {
-                lecturerPlace = true;
+                committeePlace = true;
                 if (i + 1 >= committeeSize)
                     committees[i] = null;
             }
         }
-        if (lecturerPlace)
+        if (committeePlace)
             committeeSize--;
     }
 

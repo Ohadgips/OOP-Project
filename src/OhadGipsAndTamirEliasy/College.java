@@ -158,17 +158,16 @@ public class College {
         System.out.printf("%s does not exist\n", committeeName);
         return null;
     }
-    public void addLecturerToCommittee(String committeeName, String lecturerName) {
+    public void addLecturerToCommittee(String committeeName, String lecturerName) throws AlreadyInCommitteeExeception {
         Committee committee = getCommittee(committeeName);
 
         if (committee != null) {
             Lecturer lecturer = getLecturer(lecturerName);
             if (lecturer != null) {
                 if (!committee.getChairperson().getName().equals(lecturerName)) {
-                    if (committee.addLecturer(lecturer)) {
+                        committee.addLecturer(lecturer);
                         lecturer.addCommittee(committee);
                         System.out.printf("%s has been added to the committee\n", lecturerName);
-                    }
                 }
                 else {
                     System.out.printf("%s is already part of committee as the chairperson\n", lecturerName);
@@ -177,14 +176,14 @@ public class College {
         }
     }
     // set new chairperson - remove committee from chairperson list
-    public void setNewChairperson(String committeeName,String lecturerName) {
+    public void setNewChairperson(String committeeName,String lecturerName) throws CommitteeException {
         Committee committee = getCommittee(committeeName);
         if (committee != null) {
             committee.getChairperson().removeCommittee(committee);
             Lecturer lecturer = getLecturer(lecturerName);
             if (lecturer != null)  {
                 if (committee.canBeChairperson(lecturer)) {
-                    if (!committee.removeLecturer(lecturer))
+                        committee.removeLecturer(lecturer);
                         lecturer.addCommittee(committee);
                     if (committee.setChairperson(lecturer))
                         System.out.printf("%s is now the chairperson of %s\n", lecturerName, committeeName);
@@ -207,13 +206,11 @@ public class College {
         {
             Lecturer lecturer = getLecturer(lecturerName);
             if (lecturer != null)  {
-                if (committee.removeLecturer(lecturer)) {
+                    committee.removeLecturer(lecturer);
                     lecturer.removeCommittee(committee);
                     System.out.printf("%s has been removed from %s\n", lecturerName, committeeName);
-                }
             }
         }
-
     }
 
     public void resizeDepartments() {
@@ -225,13 +222,12 @@ public class College {
             departments = temp;
         }
     }
-    public Department getDepartment(String departmentName) {
+    public Department getDepartment(String departmentName) throws DoNotExists{
         for (int i = 0; i < departmentsSize; i++) {
             if (departmentName.equals(departments[i].getName()))
                 return departments[i];
         }
-        System.out.printf("%s does not exist\n", departmentName);
-        return null;
+        throw new DoNotExists(departmentName);
     }
     public void addDepartment(){
         String departmentName;
@@ -304,15 +300,14 @@ public class College {
         return (double) average / lecturersSize;
     }
 
-    public double getSalaryAverageByDepartment(){
+    public double getSalaryAverageByDepartment() throws DoNotExists{
         String departmentName;
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter department name: ");
         departmentName = sc.nextLine();
         Department department = getDepartment(departmentName);
         if (department == null) {
-            System.out.printf("%s does not exist\n", departmentName);
-            return -1;
+            throw new DoNotExists(departmentName);
         }
         else{
 

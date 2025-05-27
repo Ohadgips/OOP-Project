@@ -47,25 +47,25 @@ public class Committee {
         }
     }
 
-    public boolean existsInLecturer(Lecturer lecturer) throws AlreadyInCommitteeExeception {
+    public Boolean existsInLecturer(Lecturer lecturer) {
         for (int i = 0; i < lecturersSize; i++) {
             if (lecturers[i] == lecturer) {
                 return true;
             }
         }
-        throw new AlreadyInCommitteeExeception(lecturer.getName());
+        return false;
     }
-    public boolean addLecturer(Lecturer lecturer) throws AlreadyInCommitteeExeception {
-        if (!existsInLecturer(lecturer)) {
+    public void addLecturer(Lecturer lecturer) throws AlreadyInCommitteeExeception {
+        if (existsInLecturer(lecturer)){
             if (lecturers.length <= lecturersSize)
                 setLecturers(resizeLecturers(lecturers));
             lecturers[lecturersSize] = lecturer;
             lecturersSize++;
-            return true;
-        }
-        return false;
+        } else
+         throw new AlreadyInCommitteeExeception(lecturer.getName());
     }
-    public boolean removeLecturer(Lecturer lecturer) {
+
+    public void removeLecturer(Lecturer lecturer) {
         boolean lecturerPlace = false;
         for (int i = 0; i < lecturersSize; i++) {
             if (lecturerPlace)
@@ -76,12 +76,8 @@ public class Committee {
                     lecturers[i] = null;
             }
         }
-        if (!lecturerPlace)
-            return false;
-        else {
+        if (lecturerPlace)
             lecturersSize--;
-            return true;
-        }
     }
 
     public String toString() {
