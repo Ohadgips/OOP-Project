@@ -5,7 +5,7 @@ import java.util.Scanner;
 // Submitted By: Tamir Eliasy 216430298 & Ohad Gips 215426883
 public class Main {
     // Submitted By: Tamir Eliasy 216430298 & Ohad Gips 215426883
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CommitteeException, AlreadyInCommitteeException {
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter College Name: ");
         String collegeName = sc.nextLine();
@@ -88,9 +88,14 @@ public class Main {
                     String doctor1Name = sc.nextLine();
                     System.out.print("Enter second doctor name: ");
                     String doctor2Name = sc.nextLine();
-                    college.CompareDoctors((Doctor) college.getLecturer(doctor1Name),(Doctor) college.getLecturer(doctor2Name));
+                    college.compareDoctors((Doctor) college.getDoctor(doctor1Name),(Doctor) college.getDoctor(doctor2Name));
                     break;
                 case 13:
+                    System.out.print("Enter first committee name: ");
+                    String firstCommitteeName = sc.nextLine();
+                    System.out.print("Enter second committee name: ");
+                    String secondCommitteeName = sc.nextLine();
+                    college.compareCommittees(college.getCommittee(firstCommitteeName),college.getCommittee(secondCommitteeName));
                     break;
                 case 14:
                     break;

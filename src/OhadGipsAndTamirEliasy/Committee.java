@@ -55,14 +55,14 @@ public class Committee {
         }
         return false;
     }
-    public void addLecturer(Lecturer lecturer) throws AlreadyInCommitteeExeception {
+    public void addLecturer(Lecturer lecturer) throws AlreadyInCommitteeException {
         if (existsInLecturer(lecturer)){
             if (lecturers.length <= lecturersSize)
                 setLecturers(resizeLecturers(lecturers));
             lecturers[lecturersSize] = lecturer;
             lecturersSize++;
         } else
-         throw new AlreadyInCommitteeExeception(lecturer.getName());
+         throw new AlreadyInCommitteeException(lecturer.getName());
     }
 
     public void removeLecturer(Lecturer lecturer) {
@@ -78,6 +78,25 @@ public class Committee {
         }
         if (lecturerPlace)
             lecturersSize--;
+    }
+    public int getArticlesAmount(){
+        int sum = 0;
+        for (int i = 0; i < lecturersSize; i++) {
+            if (lecturers[i] instanceof Doctor)
+            {
+                sum += ((Doctor) lecturers[i]).getArticlesSize();
+            }
+        }
+        return sum;
+    }
+
+
+    public int getLecturersSize() {
+        return lecturersSize;
+    }
+
+    public Lecturer[] getLecturers() {
+        return lecturers;
     }
 
     public String toString() {
