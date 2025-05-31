@@ -124,7 +124,12 @@ public class Main {
                 case 14:
                      System.out.print("Enter committee name to duplicate: ");
                     committeeName = sc.nextLine();
-                    college.duplicateCommittee(committeeName);
+                    try {
+                        college.duplicateCommittee(committeeName);
+                    }
+                    catch (AlreadyInCommitteeException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 default:
                     System.out.println("Invalid input try again");

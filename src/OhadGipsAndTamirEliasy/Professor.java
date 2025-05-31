@@ -20,6 +20,12 @@ public class Professor extends Doctor{
         details += "\nPlace that gave him the professorship is: " + getProfessorshipPlace() ;
         return details;
     }
+    @Override
+    public boolean equals(Object lecturer) {
+        if (super.equals(lecturer)) return true;
+        else if (!(lecturer instanceof Professor professor)) return false;
+        else return professorshipPlace.equals(professor.getProfessorshipPlace());
+    }
 
 
 

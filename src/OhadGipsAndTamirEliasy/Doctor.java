@@ -34,8 +34,20 @@ public class Doctor extends Lecturer{
         return details;
     }
 
+    @Override
+    public boolean equals(Object lecturer) {
+        if (!super.equals(lecturer)) return false;
+        if (!(lecturer instanceof Doctor doctor)) return false;
+        else {
 
-    // it is not necessary to write the equals function - we get it from the Lecturer
+            for (int i = 0; i < articlesSize; i++) {
+                if (!(articles[i].equals(doctor.articles[i]))) return false;
+            }
+            return true;
+        }
+    }
+
+
 }
 
 
