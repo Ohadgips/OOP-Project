@@ -20,4 +20,10 @@ public class Professor extends Doctor{
         details += "\nPlace that gave him the professorship is: " + getProfessorshipPlace() ;
         return details;
     }
+
+
+
+
+
+
 }

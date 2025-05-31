@@ -47,7 +47,7 @@ public class Committee {
         }
     }
 
-    public Boolean existsInLecturer(Lecturer lecturer) {
+    public boolean existsInLecturer(Lecturer lecturer) {
         for (int i = 0; i < lecturersSize; i++) {
             if (lecturers[i] == lecturer) {
                 return true;
@@ -55,6 +55,7 @@ public class Committee {
         }
         return false;
     }
+
     public void addLecturer(Lecturer lecturer) throws AlreadyInCommitteeException {
         if (existsInLecturer(lecturer)){
             if (lecturers.length <= lecturersSize)
@@ -109,4 +110,19 @@ public class Committee {
         }
         return details;
     }
+
+    @Override
+    public boolean equals(Object obj) { // the function return true if it is the same
+        if (obj == null) return false;
+        else if (!(obj instanceof Committee)) return false;
+        else {
+            Committee other = (Committee) obj;
+            if (!name.equals(other.name)) return false;
+            else if (!chairperson.equals(other.chairperson)) return false;
+            else if (lecturersSize != other.lecturersSize) return false;
+            else if (!lecturers[0].equals(other.lecturers[0])) return false;
+            return true;
+        }
+    }
+
 }

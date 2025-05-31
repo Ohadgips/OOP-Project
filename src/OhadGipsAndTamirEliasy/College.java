@@ -164,7 +164,6 @@ public class College {
         }
         throw new DoNotExists(committeeName);
     }
-
     public void addLecturerToCommittee(String committeeName, String lecturerName) throws AlreadyInCommitteeException {
         try {
             Committee committee = getCommittee(committeeName);
@@ -174,7 +173,7 @@ public class College {
                         committee.addLecturer(lecturer);
                         lecturer.addCommittee(committee);
                         System.out.printf("%s has been added to the committee\n", lecturerName);
-                    }
+                    } 
                     else throw new AlreadyInCommitteeException(" is already part of committee as the chairperson",lecturerName);
             }
             catch (DoNotExists e){
@@ -408,4 +407,53 @@ public class College {
 
         return details;
     }
+
+    public void duplicateCommittee(String committeeName){
+        Committee original = getCommittee(committeeName);
+        Committee copy = new Committee(committeeName + " new", original.getChairperson());
+        for (int i = 0; i < original.lecturersSize; i++) {
+            Lecturer l = original.lecturers[i];
+            if (l != null) {
+                copy.addLecturer(l);
+                l.addCommittee(copy);
+            }
+        }
+        if (committeeSize >= committees.length) {
+            committees = Lecturer.resizeCommittees(committees);
+        }
+
+        committees[committeeSize++] = copy;
+
+        System.out.printf("Committee '%s' duplicated successfully as '%s'\n", committeeName, copy.getName());
+    }
+
+    public void removeLecturerName(String lecturerName, String committeeName) {
+        Committee committee = getCommittee(committeeName);
+        Lecturer lecturer = getLecturer(lecturerName);
+
+        if (committee == null ) {
+            System.out.printf("Committee '%s' not found.\n", committeeName);
+            return;
+        }
+        if (lecturer == null) {
+            System.out.printf("Lecturer '%s' not found.\n", lecturerName);
+            return;
+        }
+        if (committee.getChairperson() == lecturer) {
+            System.out.println("Cannot remove the chairperson from the committee.");
+            return;
+        }
+
+        boolean removedFromCommittee = committee.removeLecturer(lecturer);
+        if (removedFromCommittee) {
+            lecturer.removeCommittee(committee);
+            System.out.printf("Lecturer '%s' has been removed from committee '%s'.\n", lecturerName, committeeName);
+        } else {
+            System.out.printf("Lecturer '%s' is not a member of committee '%s'.\n", lecturerName, committeeName);
+        }
+        
+    }
+
+
+
 }

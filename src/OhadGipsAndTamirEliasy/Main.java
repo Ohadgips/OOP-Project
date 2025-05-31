@@ -101,7 +101,6 @@ public class Main {
                     college.showDetailsLecturers();
                     break;
                 case 11:
-
                     college.showDetailsDepartments();
                     break;
                 case 12:
@@ -123,6 +122,9 @@ public class Main {
                     college.compareCommittees(college.getCommittee(firstCommitteeName),college.getCommittee(secondCommitteeName));
                     break;
                 case 14:
+                     System.out.print("Enter committee name to duplicate: ");
+                    committeeName = sc.nextLine();
+                    college.duplicateCommittee(committeeName);
                     break;
                 default:
                     System.out.println("Invalid input try again");
