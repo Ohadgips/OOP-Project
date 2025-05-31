@@ -382,8 +382,8 @@ public class College {
         int committee2Articles = committee2.getArticlesAmount();
 
         if (committee1Articles >= committee2Articles) {
-            if (committee2.getLecturersSize() == committee1.getLecturersSize()) {
-                System.out.printf("%s lecturers and %s lecturers has the same amount of articles\n",committee1.getName(),committee2.getName());
+            if (committee2Articles == committee1Articles) {
+                System.out.printf("'%s' committee and '%s' committee has the same amount of articles\n",committee1.getName(),committee2.getName());
             }
             else
                 System.out.printf("%s has more articles overall in compare to %s\n",committee1.getName(),committee2.getName());

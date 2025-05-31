@@ -57,7 +57,7 @@ public class Committee {
     }
 
     public void addLecturer(Lecturer lecturer) throws AlreadyInCommitteeException {
-        if (existsInLecturer(lecturer)){
+        if (!(existsInLecturer(lecturer))){
             if (lecturers.length <= lecturersSize)
                 setLecturers(resizeLecturers(lecturers));
             lecturers[lecturersSize] = lecturer;

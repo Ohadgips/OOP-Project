@@ -126,7 +126,7 @@ public class Main {
                     try {
                         college.duplicateCommittee(committeeName);
                     }
-                    catch (AlreadyInCommitteeException e) {
+                    catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
                     break;
