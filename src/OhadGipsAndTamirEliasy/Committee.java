@@ -39,15 +39,15 @@ public class Committee {
         this.chairperson = chairperson;
         return true;
     }
-    public boolean canBeChairperson(Lecturer lecturer) {
-        if (lecturer.getKindOfDegree() == Lecturer.Degree.Doctoral || lecturer.getKindOfDegree() == Lecturer.Degree.Professional) return true;
+    public boolean canBeChairperson(Lecturer lecturer) throws CommitteeException {
+        if (lecturer.getKindOfDegree() == Lecturer.Degree.Doctoral || lecturer.getKindOfDegree() == Lecturer.Degree.Professional)
+            return true;
         else {
-            System.out.println("This lecturer can't be a chairperson. chairperson must be a doctor or professor;");
-            return false;
+            throw new CommitteeException();
         }
     }
 
-    public boolean existsInLecturer(Lecturer lecturer) {
+    public Boolean existsInLecturer(Lecturer lecturer) {
         for (int i = 0; i < lecturersSize; i++) {
             if (lecturers[i] == lecturer) {
                 return true;
@@ -55,20 +55,17 @@ public class Committee {
         }
         return false;
     }
-    public boolean addLecturer(Lecturer lecturer){
-        if (existsInLecturer(lecturer)) {
-            System.out.printf("%s already exists in this committee",lecturer.getName());
-            return false;
-        }
-        else {
+    public void addLecturer(Lecturer lecturer) throws AlreadyInCommitteeException {
+        if (existsInLecturer(lecturer)){
             if (lecturers.length <= lecturersSize)
                 setLecturers(resizeLecturers(lecturers));
             lecturers[lecturersSize] = lecturer;
             lecturersSize++;
-            return true;
-        }
+        } else
+         throw new AlreadyInCommitteeException(lecturer.getName());
     }
-    public boolean removeLecturer(Lecturer lecturer) {
+
+    public void removeLecturer(Lecturer lecturer) {
         boolean lecturerPlace = false;
         for (int i = 0; i < lecturersSize; i++) {
             if (lecturerPlace)
@@ -79,12 +76,27 @@ public class Committee {
                     lecturers[i] = null;
             }
         }
-        if (!lecturerPlace)
-            return false;
-        else {
+        if (lecturerPlace)
             lecturersSize--;
-            return true;
+    }
+    public int getArticlesAmount(){
+        int sum = 0;
+        for (int i = 0; i < lecturersSize; i++) {
+            if (lecturers[i] instanceof Doctor)
+            {
+                sum += ((Doctor) lecturers[i]).getArticlesSize();
+            }
         }
+        return sum;
+    }
+
+
+    public int getLecturersSize() {
+        return lecturersSize;
+    }
+
+    public Lecturer[] getLecturers() {
+        return lecturers;
     }
 
     public String toString() {
