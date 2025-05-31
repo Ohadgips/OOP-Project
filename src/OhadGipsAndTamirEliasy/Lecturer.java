@@ -118,8 +118,7 @@ public class Lecturer {
                 else if (!nameOfDegree.equals(lecturer.nameOfDegree)) return false;
                 else if (id != lecturer.id) return false;
                 else if (!department.equals(lecturer.department)) return false;
-                else if (wage != lecturer.wage) return false;
-                else return true;
+                else return wage == lecturer.wage;
             }
     }
 }

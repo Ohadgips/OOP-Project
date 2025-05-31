@@ -96,16 +96,11 @@ public class Committee {
         return lecturersSize;
     }
 
-    public Lecturer[] getLecturers() {
-        return lecturers;
-    }
 
     public String toString() {
         String details = "Committee name is: " + name + "\nChairperson is: " + chairperson.getName() + "\nThe lecturers in this committee are: ";
         if (lecturersSize > 0) {
-            for (int i = 0; i < lecturersSize - 1; i++) {
-                details += lecturers[i].getName() + ", ";
-            }
+            for (int i = 0; i < lecturersSize - 1; i++) details += lecturers[i].getName() + ", ";
             return details + lecturers[lecturersSize - 1].getName();
         }
         return details;
@@ -114,13 +109,14 @@ public class Committee {
     @Override
     public boolean equals(Object obj) { // the function return true if it is the same
         if (obj == null) return false;
-        else if (!(obj instanceof Committee)) return false;
+        else if (!(obj instanceof Committee other)) return false;
         else {
-            Committee other = (Committee) obj;
             if (!name.equals(other.name)) return false;
             else if (!chairperson.equals(other.chairperson)) return false;
             else if (lecturersSize != other.lecturersSize) return false;
-            else if (!lecturers[0].equals(other.lecturers[0])) return false;
+            for (int i = 0; i < lecturersSize; i++) {
+                if (!lecturers[i].equals(other.lecturers[i])) return false;
+            }
             return true;
         }
     }

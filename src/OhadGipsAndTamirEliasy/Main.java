@@ -1,6 +1,5 @@
 package OhadGipsAndTamirEliasy;
 
-import javax.print.Doc;
 import java.util.Scanner;
 // Submitted By: Tamir Eliasy 216430298 & Ohad Gips 215426883
 public class Main {

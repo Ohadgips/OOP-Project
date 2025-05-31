@@ -63,7 +63,7 @@ public class Department {
                 "\nLecturers in this department: ";
         if(getLecturersSize() > 0) {
             for (int i = 0; i < getLecturersSize() - 1; i++)
-                details = details + getLecturers()[i].getName() + " ,";
+                details +=  getLecturers()[i].getName() + " ,";
             return details + getLecturers()[getLecturersSize() - 1].getName();
         }
         return details;
@@ -72,13 +72,13 @@ public class Department {
     @Override
     public boolean equals(Object obj) { // the function return true if it is the same
         if (obj == null) return false;
-        else if (!(obj instanceof Department)) return false;
+        else if (!(obj instanceof Department department)) return false;
         else {
-            Department other = (Department) obj;
-            if (!name.equals(other.name)) return false;
-            else if (numOfStudents != other.numOfStudents) return false;
-            else if (lecturersSize != other.lecturersSize) return false;
-            else if (!lecturers[0].equals(other.lecturers[0])) return false;
+            if (!name.equals(department.name)) return false;
+            else if (numOfStudents != department.numOfStudents) return false;
+            else if (lecturersSize != department.lecturersSize) return false;
+            for (int i = 0; i < lecturersSize; i++)
+                if (!lecturers[i].equals(department.lecturers[i])) return false;
             return true;
         }
     }
