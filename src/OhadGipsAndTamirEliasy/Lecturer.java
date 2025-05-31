@@ -95,9 +95,10 @@ public class Lecturer {
                 "\nHis id is: " + id +
                 "\nKind of Degree is: " + kindOfDegree +
                 "\nName of degree is: " + nameOfDegree +
-                "\nWage is: " + wage +
-                "\nDepartment is: " + department.getName() +
-                "\nPart of this committees: ";
+                "\nWage is: " + wage;
+        if (department != null)
+            details += "\nDepartment is: " + department.getName();
+        details += "\nPart of this committees: ";
         if (committeeSize > 0) {
             for (int i = 0; i < committeeSize -1; i++) {
                 details += committees[i].getName() + ", ";

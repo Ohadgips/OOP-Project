@@ -1,8 +1,7 @@
 package OhadGipsAndTamirEliasy;
 
-public class DoNotExists extends RuntimeException {
+public class DoNotExists extends Exception {
     public DoNotExists(String name) {
-
-        System.out.printf("%s does not exist",name);
+        super(name+" does not exist");
     }
 }

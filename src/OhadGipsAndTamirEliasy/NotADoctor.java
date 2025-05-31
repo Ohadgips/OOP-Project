@@ -1,7 +1,7 @@
 package OhadGipsAndTamirEliasy;
 
-public class NotADoctor extends RuntimeException {
+public class NotADoctor extends DoNotExists {
     public NotADoctor(String name) {
-        System.out.printf("%s is not at least a doctor\n", name);
+        super(name+" is not a doctor or a professor");
     }
 }

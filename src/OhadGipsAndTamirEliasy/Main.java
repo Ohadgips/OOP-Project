@@ -5,7 +5,7 @@ import java.util.Scanner;
 // Submitted By: Tamir Eliasy 216430298 & Ohad Gips 215426883
 public class Main {
     // Submitted By: Tamir Eliasy 216430298 & Ohad Gips 215426883
-    public static void main(String[] args) throws CommitteeException, AlreadyInCommitteeException {
+    public static void main(String[] args) throws DoNotExists {
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter College Name: ");
         String collegeName = sc.nextLine();
@@ -26,7 +26,7 @@ public class Main {
                     9- Show the average salary of lecturers in a certain department
                     10- Show all lecturers information
                     11- Show all committees information
-                    12 - Compare between professors
+                    12 - Compare between doctors
                     13 - Compare between committees
                     14 - Duplicate committee""");
             option = sc.nextInt();
@@ -34,7 +34,10 @@ public class Main {
             sc.nextLine();
             switch(option){
                 case 1:
-                    college.addLecturer();
+                    try {
+                        college.addLecturer();
+                    } catch (EnumDoNotExists e) {
+                        System.out.println(e.getMessage());                    }
                     break;
 
                 case 2:
@@ -45,14 +48,23 @@ public class Main {
                     committeeName = sc.nextLine();
                     System.out.print("Enter lecturer name: ");
                     lecturerName = sc.nextLine();
-                    college.addLecturerToCommittee(committeeName, lecturerName);
+
+                    try {
+                        college.addLecturerToCommittee(committeeName, lecturerName);
+                    } catch (AlreadyInCommitteeException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case 4:
                     System.out.print("Enter committee name: ");
                     committeeName = sc.nextLine();
                     System.out.print("Enter lecturer name: ");
                     lecturerName = sc.nextLine();
-                    college.setNewChairperson(committeeName, lecturerName);
+                    try {
+                        college.setNewChairperson(committeeName, lecturerName);
+                    } catch (CommitteeException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case 5:
                     System.out.print("Enter committee name: ");
@@ -75,12 +87,21 @@ public class Main {
                     System.out.printf("The average wage for lecturers in this college is: %s\n",college.salaryAverage());
                     break;
                 case 9:
-                    System.out.printf("The average wage for lecturers in this department is: %s\n",college.getSalaryAverageByDepartment());
+                    try {
+                        System.out.print("Enter department name: ");
+                        departmentName = sc.nextLine();
+                        Department department = college.getDepartment(departmentName);
+                        System.out.printf("The average wage for lecturers in this department is: %s\n", college.getSalaryAverageByDepartment(department));
+                    }
+                    catch (DoNotExists e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case 10:
                     college.showDetailsLecturers();
                     break;
                 case 11:
+
                     college.showDetailsDepartments();
                     break;
                 case 12:
@@ -88,7 +109,11 @@ public class Main {
                     String doctor1Name = sc.nextLine();
                     System.out.print("Enter second doctor name: ");
                     String doctor2Name = sc.nextLine();
-                    college.compareDoctors((Doctor) college.getDoctor(doctor1Name),(Doctor) college.getDoctor(doctor2Name));
+                    try {
+                        college.compareDoctors(college.getDoctor(doctor1Name), college.getDoctor(doctor2Name));
+                    } catch (DoNotExists e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case 13:
                     System.out.print("Enter first committee name: ");
