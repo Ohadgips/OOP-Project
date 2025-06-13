@@ -107,7 +107,7 @@ public class College {
         }
     }
 
-    public void addCommittee() {
+    public void addCommittee() throws EnumDoNotExists {
         // without a doctoral lecturer you cannot create a committee
         if (HasDoctoralLecturer()) {
             boolean exists;
@@ -145,13 +145,21 @@ public class College {
                         System.out.println(e.getMessage()+". Try a different name");
                     }
                 } while (exists);
+                System.out.print("Enter committee degree type (Bachelor, Master, Doctoral, Professional): ");
+
                 if (committeeSize >= committees.length) {
                     committees = Lecturer.resizeCommittees(committees);
                 }
-                committees[committeeSize] = new Committee(name, chairperson);
-                chairperson.addCommittee(committees[committeeSize]);
-                committeeSize++;
-                System.out.printf("%s has been created, %s it is chairperson\n", name, chairpersonName);
+                Lecturer.Degree kindOfDegree;
+                try {
+                    kindOfDegree = Lecturer.Degree.valueOf(sc.nextLine());
+                    committees[committeeSize] = new Committee(name, chairperson,kindOfDegree);
+                    chairperson.addCommittee(committees[committeeSize]);
+                    committeeSize++;
+                    System.out.printf("%s has been created, %s it is chairperson\n", name, chairpersonName);
+                } catch (Exception e) {
+                    throw new EnumDoNotExists();
+                }
             }
         } else System.out.println("There are no doctoral lecturers in the college to create a committee");
 
@@ -164,15 +172,18 @@ public class College {
         }
         throw new DoNotExists(committeeName);
     }
-    public void addLecturerToCommittee(String committeeName, String lecturerName) throws AlreadyInCommitteeException {
+    public void addLecturerToCommittee(String committeeName, String lecturerName) throws AlreadyInCommitteeException,NotRightDegreeType {
         try {
             Committee committee = getCommittee(committeeName);
             try {
                 Lecturer lecturer = getLecturer(lecturerName);
                     if (!committee.getChairperson().getName().equals(lecturerName)) {
-                        committee.addLecturer(lecturer);
-                        lecturer.addCommittee(committee);
-                        System.out.printf("%s has been added to the committee\n", lecturerName);
+                        if (lecturer.getKindOfDegree() == committee.getDegreeType()) {
+                            committee.addLecturer(lecturer);
+                            lecturer.addCommittee(committee);
+                            System.out.printf("%s has been added to the committee\n", lecturerName);
+                        }
+                        else throw new NotRightDegreeType();
                     } 
                     else throw new AlreadyInCommitteeException(" is already part of committee as the chairperson",lecturerName);
             }
@@ -285,8 +296,7 @@ public class College {
 
     public void addLecturerToDepartment(String lecturerName, String departmentName) {
         try {
-            Department department = getDepartment(departmentName);
-            try {
+                Department department = getDepartment(departmentName);
                 Lecturer lecturer = getLecturer(lecturerName);
                 String input = "";
                 if (lecturer.getDepartment() != null) {
@@ -305,11 +315,7 @@ public class College {
                     lecturer.setDepartment(department);
                     System.out.printf("%s has been added to the department\n", lecturerName);
                 }
-
             } catch (DoNotExists e) {System.out.println(e.getMessage()+". Try again");}
-        }
-        catch (DoNotExists e) {System.out.println(e.getMessage()+". Try again");}
-
     }
 
     public double salaryAverage() {
@@ -410,7 +416,7 @@ public class College {
 
     public void duplicateCommittee(String committeeName) throws AlreadyInCommitteeException, DoNotExists {
         Committee original = getCommittee(committeeName);
-        Committee copy = new Committee(committeeName + "-new", original.getChairperson());
+        Committee copy = new Committee(committeeName + "-new", original.getChairperson(),original.getDegreeType());
         for (int i = 0; i < original.getLecturersSize(); i++) {
             Lecturer l = original.lecturers[i];
             copy.addLecturer(l);

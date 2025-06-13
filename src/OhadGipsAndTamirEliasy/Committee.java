@@ -14,12 +14,22 @@ public class Committee {
     Lecturer[] lecturers;
     int lecturersSize;
     Lecturer chairperson;
+    Lecturer.Degree degreeType;
 
-    public Committee(String name,Lecturer chairperson) {
+    public Committee(String name,Lecturer chairperson,Lecturer.Degree degreeType) {
         setChairperson(chairperson);
         setName(name);
         lecturersSize = 0;
         lecturers = new Lecturer[1];
+        setDegreeType(degreeType);
+    }
+
+    public void setDegreeType(Lecturer.Degree degreeType) {
+        this.degreeType = degreeType;
+    }
+
+    public Lecturer.Degree getDegreeType() {
+        return degreeType;
     }
 
     public void setName(String name) {
@@ -56,14 +66,14 @@ public class Committee {
         return false;
     }
 
-    public void addLecturer(Lecturer lecturer) throws AlreadyInCommitteeException {
-        if (!(existsInLecturer(lecturer))){
+    public void addLecturer(Lecturer lecturer) throws AlreadyInCommitteeException{
+        if (!(existsInLecturer(lecturer))) {
             if (lecturers.length <= lecturersSize)
                 setLecturers(resizeLecturers(lecturers));
             lecturers[lecturersSize] = lecturer;
             lecturersSize++;
         } else
-         throw new AlreadyInCommitteeException(lecturer.getName());
+            throw new AlreadyInCommitteeException(lecturer.getName());
     }
 
     public void removeLecturer(Lecturer lecturer) {
@@ -98,7 +108,10 @@ public class Committee {
 
 
     public String toString() {
-        String details = "Committee name is: " + name + "\nChairperson is: " + chairperson.getName() + "\nThe lecturers in this committee are: ";
+        String details = "Committee name is: " + name
+                + "\nChairperson is: " + chairperson.getName()
+                +"\nThe lecturers degree type in this committee: "+degreeType
+                + "\nThe lecturers in this committee are: ";
         if (lecturersSize > 0) {
             for (int i = 0; i < lecturersSize - 1; i++) details += lecturers[i].getName() + ", ";
             return details + lecturers[lecturersSize - 1].getName();
@@ -112,6 +125,7 @@ public class Committee {
         else if (!(obj instanceof Committee other)) return false;
         else {
             if (!name.equals(other.name)) return false;
+            else if(!degreeType.equals(other.degreeType)) return false;
             else if (!chairperson.equals(other.chairperson)) return false;
             else if (lecturersSize != other.lecturersSize) return false;
             for (int i = 0; i < lecturersSize; i++) {
