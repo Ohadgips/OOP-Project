@@ -1,7 +1,9 @@
 package OhadGipsAndTamirEliasy;
 
+import java.io.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
 // Submitted By: Tamir Eliasy 216430298 & Ohad Gips 215426883
 public class Main {
     // Submitted By: Tamir Eliasy 216430298 & Ohad Gips 215426883
@@ -9,7 +11,20 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter College Name: ");
         String collegeName = sc.nextLine();
-        College college = new College(collegeName);
+        College college;
+        String fileName = collegeName + "_backup.bin";
+        File file = new File(fileName);
+        if (file.exists()) {
+        try {
+            college = College.loadFromFile(fileName);
+            System.out.println("Load saved data for this existing college: " + collegeName);
+        } catch (Exception e) {
+            System.err.println("Error loading file, start a new college");
+            college = new College(collegeName); // constructor with name
+        }
+    }   else {
+        college = new College(collegeName); // new college
+    }
         int option = -1;
         do {
             try {
@@ -97,7 +112,7 @@ public class Main {
                         try {
                             System.out.print("Enter department name: ");
                             departmentName = sc.nextLine();
-                            Department department = college.getDepartment(departmentName);
+                            Department department = College.getByName(college.getDepartments(),departmentName);
                             System.out.printf("The average wage for lecturers in this department is: %s\n", college.getSalaryAverageByDepartment(department));
                         } catch (DoNotExists e) {
                             System.out.println(e.getMessage());
@@ -125,7 +140,8 @@ public class Main {
                         String firstCommitteeName = sc.nextLine();
                         System.out.print("Enter second committee name: ");
                         String secondCommitteeName = sc.nextLine();
-                        college.compareCommittees(college.getCommittee(firstCommitteeName), college.getCommittee(secondCommitteeName));
+
+                        college.compareCommittees(College.getByName(college.getCommittees(),firstCommitteeName), College.getByName(college.getCommittees(),secondCommitteeName));
                         break;
                     case 14:
                         System.out.print("Enter committee name to duplicate: ");
@@ -137,15 +153,21 @@ public class Main {
                         }
                         break;
                     default:
-                        System.out.println("Invalid input try again");
+                        if (option != 0) System.out.println("Invalid input try again");
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Invalid input try again");
-                sc.nextLine();
+                    System.out.println("Invalid input try again");
+                    sc.nextLine();
             }
         }
         while (option != 0) ;
-                System.out.println("You have left the system");
+            System.out.println("You have left the system");
+            try {
+                college.saveCollege(college.getCollegeName()+"_backup.bin");
+                System.out.println("Data saved. Goodbye!");
+            } catch (IOException e) {
+                System.err.println("Failed to save data: " + e.getMessage());
+            }
 
     }
 }
