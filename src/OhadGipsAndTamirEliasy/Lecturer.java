@@ -1,29 +1,23 @@
 package OhadGipsAndTamirEliasy;
 
-public class Lecturer {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class Lecturer implements HasName, Serializable
+{
     public enum Degree {
         Bachelor,
         Master,
         Doctoral,
         Professional
     }
-    public static Committee[] resizeCommittees(Committee[] committees) {
-        Committee[] temp = new Committee[committees.length * 2];
-        for (int i = 0; i < committees.length && committees[i] != null; i++) {
-            temp[i] = committees[i];
-        }
-        return temp;
-    }
-
     protected String name;
     protected int id;
     protected Degree kindOfDegree;
     protected String nameOfDegree;
     protected int wage;
     protected Department department;
-    protected Committee[] committees;
-    protected int committeeSize;
-
+    protected ArrayList<Committee> committees;
 
     public Lecturer(String name, int id, Degree kindOfDegree, String nameOfDegree, int wage) {
         setName(name);
@@ -31,8 +25,7 @@ public class Lecturer {
         setKindOfDegree(kindOfDegree);
         setNameOfDegree(nameOfDegree);
         setWage(wage);
-        this.committees = new Committee[1];
-        committeeSize = 0;
+        this.committees = new ArrayList<>();
         department = null;
 
     }
@@ -68,28 +61,6 @@ public class Lecturer {
         return department;
     }
 
-    public void addCommittee(Committee committee) {
-        if (committeeSize >= committees.length) {
-            committees = resizeCommittees(committees);
-        }
-        committees[committeeSize] = committee;
-        committeeSize++;
-    }
-    public void removeCommittee(Committee committee) {
-        boolean committeePlace = false;
-        for (int i = 0; i < committeeSize; i++) {
-            if (committeePlace)
-                committees[i - 1] = committees[i];
-            else if (committees[i] == committee) {
-                committeePlace = true;
-                if (i + 1 >= committeeSize)
-                    committees[i] = null;
-            }
-        }
-        if (committeePlace)
-            committeeSize--;
-    }
-
     public String toString() {
         String details = "Lecturer name is: " + name +
                 "\nHis id is: " + id +
@@ -99,27 +70,44 @@ public class Lecturer {
         if (department != null)
             details += "\nDepartment is: " + department.getName();
         details += "\nPart of this committees: ";
-        if (committeeSize > 0) {
-            for (int i = 0; i < committeeSize -1; i++) {
-                details += committees[i].getName() + ", ";
+        for (int i = 0; i < committees.size(); i++) {
+            details += committees.get(i).getName();
+            if (i < committees.size() - 1) {
+                details += (", ");
             }
-            return details + committees[committeeSize-1].getName();
         }
         return details;
     }
+    public ArrayList<Committee> getCommittees() {
+        return committees;
+    }
 
+    public String getNameOfDegree() {
+        return nameOfDegree;
+    }
+    public int getId() {
+        return id;
+    }
     @Override
     public boolean equals(Object Obj) {// the function return true if it is the same
             if (!(Obj instanceof Lecturer lecturer)) return false;
             else {
-                if (committeeSize != lecturer.committeeSize) return false;
-                else if (!name.equals(lecturer.name)) return false;
-                else if (kindOfDegree != lecturer.kindOfDegree) return false;
-                else if (!nameOfDegree.equals(lecturer.nameOfDegree)) return false;
-                else if (id != lecturer.id) return false;
-                else if (!department.equals(lecturer.department)) return false;
-                else return wage == lecturer.wage;
+                if (committees.size() != lecturer.getCommittees().size()) return false;
+                else if (!name.equals(lecturer.getName())) return false;
+                else if (kindOfDegree != lecturer.getKindOfDegree()) return false;
+                else if (!nameOfDegree.equals(lecturer.getNameOfDegree())) return false;
+                else if (id != lecturer.getId()) return false;
+                else if (!(wage == lecturer.getWage())) return false;
+                else if (!(committees.equals(lecturer.getCommittees()))) return false;
+                else{
+                    if (department== null && lecturer.getDepartment() == null) return true;
+                    else if (lecturer.getDepartment() == null || department == null) return false;
+                    else return department.equals(lecturer.getDepartment());
+                }
             }
     }
 }
+
+
+
 

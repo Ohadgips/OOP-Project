@@ -1,26 +1,18 @@
 package OhadGipsAndTamirEliasy;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 
-public class Committee {
-    public static Lecturer[] resizeLecturers(Lecturer[] lecturers) {
-        Lecturer[] temp = new Lecturer[lecturers.length * 2];
-        for (int i = 0; i < lecturers.length && lecturers[i] != null; i++) {
-            temp[i] = lecturers[i];
-        }
-        return temp;
-    }
-
-    String name;
-    Lecturer[] lecturers;
-    int lecturersSize;
-    Lecturer chairperson;
-    Lecturer.Degree degreeType;
+public class Committee implements HasName, Serializable {
+    private String name;
+    private final ArrayList<Lecturer> lecturers;
+    private Lecturer chairperson;
+    private Lecturer.Degree degreeType;
 
     public Committee(String name,Lecturer chairperson,Lecturer.Degree degreeType) {
         setChairperson(chairperson);
         setName(name);
-        lecturersSize = 0;
-        lecturers = new Lecturer[1];
+        lecturers = new ArrayList<>();
         setDegreeType(degreeType);
     }
 
@@ -34,9 +26,6 @@ public class Committee {
 
     public void setName(String name) {
         this.name = name;
-    }
-    public void setLecturers(Lecturer[] lecturers) {
-        this.lecturers = lecturers;
     }
     public String getName() {
         return name;
@@ -57,53 +46,20 @@ public class Committee {
         }
     }
 
-    public boolean existsInLecturer(Lecturer lecturer) {
-        for (int i = 0; i < lecturersSize; i++) {
-            if (lecturers[i] == lecturer) {
-                return true;
-            }
-        }
-        return false;
+
+    public ArrayList<Lecturer> getLecturers() {
+        return lecturers;
     }
 
-    public void addLecturer(Lecturer lecturer) throws AlreadyInCommitteeException{
-        if (!(existsInLecturer(lecturer))) {
-            if (lecturers.length <= lecturersSize)
-                setLecturers(resizeLecturers(lecturers));
-            lecturers[lecturersSize] = lecturer;
-            lecturersSize++;
-        } else
-            throw new AlreadyInCommitteeException(lecturer.getName());
-    }
-
-    public void removeLecturer(Lecturer lecturer) {
-        boolean lecturerPlace = false;
-        for (int i = 0; i < lecturersSize; i++) {
-            if (lecturerPlace)
-                lecturers[i - 1] = lecturers[i];
-            else if (lecturers[i] == lecturer) {
-                lecturerPlace = true;
-                if (i + 1 >= lecturersSize)
-                    lecturers[i] = null;
-            }
-        }
-        if (lecturerPlace)
-            lecturersSize--;
-    }
     public int getArticlesAmount(){
         int sum = 0;
-        for (int i = 0; i < lecturersSize; i++) {
-            if (lecturers[i] instanceof Doctor)
+        for (Lecturer lecturer : lecturers) {
+            if (lecturer instanceof Doctor)
             {
-                sum += ((Doctor) lecturers[i]).getArticlesSize();
+                sum += ((Doctor) lecturer).articles.size();
             }
         }
         return sum;
-    }
-
-
-    public int getLecturersSize() {
-        return lecturersSize;
     }
 
 
@@ -112,11 +68,13 @@ public class Committee {
                 + "\nChairperson is: " + chairperson.getName()
                 +"\nThe lecturers degree type in this committee: "+degreeType
                 + "\nThe lecturers in this committee are: ";
-        if (lecturersSize > 0) {
-            for (int i = 0; i < lecturersSize - 1; i++) details += lecturers[i].getName() + ", ";
-            return details + lecturers[lecturersSize - 1].getName();
+        for (int i = 0; i < lecturers.size(); i++) {
+            details += lecturers.get(i).getName();
+            if (i < lecturers.size() - 1) {
+                details += (", ");
+            }
         }
-        return details;
+        return details + "\n";
     }
 
     @Override
@@ -124,15 +82,11 @@ public class Committee {
         if (obj == null) return false;
         else if (!(obj instanceof Committee other)) return false;
         else {
-            if (!name.equals(other.name)) return false;
-            else if(!degreeType.equals(other.degreeType)) return false;
-            else if (!chairperson.equals(other.chairperson)) return false;
-            else if (lecturersSize != other.lecturersSize) return false;
-            for (int i = 0; i < lecturersSize; i++) {
-                if (!lecturers[i].equals(other.lecturers[i])) return false;
-            }
-            return true;
+            if (!name.equals(other.getName())) return false;
+            else if (!degreeType.equals(other.getDegreeType())) return false;
+            else if (!chairperson.equals(other.getChairperson())) return false;
+            else if (lecturers.size() != other.getLecturers().size()) return false;
+            else return (lecturers.equals(other.getLecturers()));
         }
     }
-
 }

@@ -1,16 +1,17 @@
 package OhadGipsAndTamirEliasy;
 
-public class Department {
-    String name;
-    int numOfStudents;
-    Lecturer[] lecturers;
-    int lecturersSize;
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class Department implements HasName, Serializable {
+    private String name;
+    private int numOfStudents;
+    private final ArrayList<Lecturer> lecturers;
 
     public Department(String name, int numOfStudents) {
         setName(name);
         setNumOfStudents(numOfStudents);
-        lecturers = new Lecturer[1];
-        lecturersSize = 0;
+        lecturers = new ArrayList<>();
     }
 
     public String getName() {
@@ -22,51 +23,25 @@ public class Department {
     public void setNumOfStudents(int numOfStudents) {
         this.numOfStudents = numOfStudents;
     }
-    public Lecturer[] getLecturers() {
+    public ArrayList<Lecturer> getLecturers() {
         return lecturers;
     }
-    public int getLecturersSize() {
-        return lecturersSize;
-    }
-    public void setLecturers(Lecturer[] lecturers) {
-        this.lecturers = lecturers;
-    }
-
-    public void addLecturer(Lecturer lecturer){
-        if (lecturers.length <= lecturersSize)
-            setLecturers(Committee.resizeLecturers(lecturers));
-        lecturers[lecturersSize] = lecturer;
-        lecturersSize++;
-    }
-
     public int getNumOfStudents() {
         return numOfStudents;
     }
 
-    public void removeLecturer(Lecturer lecturer) {
-        boolean lecturerPlace = false;
-        for (int i = 0; i < lecturersSize; i++) {
-            if (lecturerPlace)
-                lecturers[i - 1] = lecturers[i];
-            else if (lecturers[i] == lecturer) {
-                lecturerPlace = true;
-                if (i + 1 >= lecturersSize)
-                    lecturers[i] = null;
-            }
-        }
-        if (lecturerPlace)
-            lecturersSize--;
-    }
+
     public String toString() {
         String details = "Department name is: " + getName()
                 + "\nNumber Of Students: "+ getNumOfStudents() +
                 "\nLecturers in this department: ";
-        if(getLecturersSize() > 0) {
-            for (int i = 0; i < getLecturersSize() - 1; i++)
-                details +=  getLecturers()[i].getName() + " ,";
-            return details + getLecturers()[getLecturersSize() - 1].getName();
+        for (int i = 0; i < lecturers.size(); i++) {
+            details += lecturers.get(i).getName();
+            if (i < lecturers.size() - 1) {
+                details += (", ");
+            }
         }
-        return details;
+        return details + "\n";
     }
 
     @Override
@@ -74,17 +49,11 @@ public class Department {
         if (obj == null) return false;
         else if (!(obj instanceof Department department)) return false;
         else {
-            if (!name.equals(department.name)) return false;
-            else if (numOfStudents != department.numOfStudents) return false;
-            else if (lecturersSize != department.lecturersSize) return false;
-            for (int i = 0; i < lecturersSize; i++)
-                if (!lecturers[i].equals(department.lecturers[i])) return false;
-            return true;
+            if (!name.equals(department.getName())) return false;
+            else if (numOfStudents != department.getNumOfStudents()) return false;
+            else if (lecturers.size() != department.getLecturers().size()) return false;
+            else return lecturers.equals(department.getLecturers());
         }
     }
-
-
-
-
 }
 

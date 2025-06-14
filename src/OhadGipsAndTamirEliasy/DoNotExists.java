@@ -1,6 +1,8 @@
 package OhadGipsAndTamirEliasy;
 
-public class DoNotExists extends Exception {
+import java.io.Serializable;
+
+public class DoNotExists extends Exception implements Serializable {
     public DoNotExists(String name) {
         super(name+" does not exist");
     }

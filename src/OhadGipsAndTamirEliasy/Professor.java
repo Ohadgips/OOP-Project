@@ -1,9 +1,13 @@
 package OhadGipsAndTamirEliasy;
 
-public class Professor extends Doctor{
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class Professor extends Doctor implements Serializable {
     private String professorshipPlace;
-    public Professor(String name, int id, Degree kindOfDegree, String nameOfDegree, int wage, String professorshipPlace,String[] articles,int articlesSize) {
-        super(name, id, kindOfDegree, nameOfDegree, wage,articles,articlesSize);
+
+    public Professor(String name, int id, Degree kindOfDegree, String nameOfDegree, int wage, String professorshipPlace, ArrayList<String> articles) {
+        super(name, id, kindOfDegree, nameOfDegree, wage,articles);
         setProfessorshipPlace(professorshipPlace);
     }
 
@@ -26,10 +30,5 @@ public class Professor extends Doctor{
         else if (!(lecturer instanceof Professor professor)) return false;
         else return professorshipPlace.equals(professor.getProfessorshipPlace());
     }
-
-
-
-
-
 
 }
