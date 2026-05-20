@@ -1,0 +1,34 @@
+Version Details:
+Course: Object-Oriented Design (11902)
+Assignment: Homework Assignment #1
+Version Number: 5
+
+ 
+Bugs & Problems:
+There are no known bugs or problems at the moment.
+
+Changes In This Version:
+
+Doctor.java Class
+- Switched 'articles' collection from ArrayList to HashSet (lines 8,15)
+- Added hashCode() function (lines 19 -21)
+- Switched for loop to an iterator (line 31)
+- Implemented StringBuilder instead of string in ToString function (lines 28-37)
+- Fixed line 24 to prevent a potential null exception
+
+Department.java Class
+- Switched 'lecturers' collection from ArrayList to HashSet (lines 10)
+- Added hashcode() function to the class (line 36)
+- Switched for loop to an iterator (line 44)
+- Implemented StringBuilder instead of string in ToString function (lines 41 -50)
+
+College.java Class
+- Switched all for loop to iterators (line 60, 218,249,302,311,319,328)
+- Switched all collections (lecturers, committees, departments) from ArrayList to HashSet
+- Updated all for loops in ToString to iterators and  implemented StringBuilder - (lines 385- 404)
+- added comparator when printing details line (330-347)
+- Updated showDetailsLecturers() and showDetailsCommittees() to accept a Comparator and using TreeSet for sorting
+
+Main.java
+- added sorting criteria for showing details (lines 121-168)
+ 
