@@ -1,19 +1,21 @@
 package OhadGipsAndTamirEliasy;
 import java.io.*;
-import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class College implements Serializable {
     private String collegeName;
-    private final ArrayList<Lecturer> lecturers;
-    private final ArrayList<Committee>committees;
-    private final ArrayList<Department> departments;
+    private final HashSet<Lecturer> lecturers;
+    private final HashSet<Committee>committees;
+    private final HashSet<Department> departments;
 
     public College(String collegeName) {
         setCollegeName(collegeName);
-        this.lecturers = new ArrayList<>();
-        this.committees = new ArrayList<>();
-        this.departments = new ArrayList<>();
+        this.lecturers = new HashSet<>();
+        this.committees = new HashSet<>();
+        this.departments = new HashSet<>();
     }
 
     public String getCollegeName() {
@@ -24,15 +26,15 @@ public class College implements Serializable {
         this.collegeName = collegeName;
     }
 
-    public ArrayList<Committee> getCommittees() {
+    public HashSet<Committee> getCommittees() {
         return committees;
     }
-    public ArrayList<Department> getDepartments() {
+    public HashSet<Department> getDepartments() {
         return departments;
     }
 
     // generic func that get an obj by name from arraylist
-    public static <T extends HasName> T getByName(ArrayList<T> list,String name) throws DoNotExists {
+    public static <T extends HasName> T getByName(HashSet<T> list,String name) throws DoNotExists {
         for (T item : list) {
             if (item.getName().equals(name)) {
                 return item;
@@ -40,7 +42,7 @@ public class College implements Serializable {
         }
         throw new DoNotExists(name);
     }
-    public static  <T extends HasName> void addObject(ArrayList<T> list, T object,String exception) throws AlreadyInException{
+    public static  <T extends HasName> void addObject(HashSet<T> list, T object,String exception) throws AlreadyInException{
         if (!list.contains(object)) {
             list.add(object);
         }
@@ -56,8 +58,9 @@ public class College implements Serializable {
             exists = false;
             input = sc.nextLine();
             if (!input.equals("return")) {
-                for (Lecturer lecturer : lecturers) {
-                    if (lecturer.getName().equals(input)) {
+                Iterator<Lecturer> it = lecturers.iterator();
+                while (it.hasNext()) {
+                    if (it.next().getName().equals(input)) {
                         System.out.println("\nThis name is already in use. Try a different name");
                         exists = true;
                         break;
@@ -83,7 +86,7 @@ public class College implements Serializable {
 
             if (Lecturer.Degree.Doctoral.equals(kindOfDegree) || Lecturer.Degree.Professional.equals(kindOfDegree)) {
                 String string;
-                ArrayList<String> articles = new ArrayList<>();
+                HashSet<String> articles = new HashSet<>();
                 sc.nextLine(); // lastly got int need to clear the input from /n
                 do {
                     System.out.print("\nEnter articles name (enter to stop): ");
@@ -213,7 +216,9 @@ public class College implements Serializable {
     }
 
     public boolean HasDoctoralLecturer() {
-        for (Lecturer lecturer : lecturers) {
+        Iterator<Lecturer> it = lecturers.iterator();
+        while(it.hasNext()) {
+            Lecturer lecturer = it.next();
             if (lecturer.getKindOfDegree() == Lecturer.Degree.Doctoral || lecturer.getKindOfDegree() == Lecturer.Degree.Professional)
                 return true;
         }
@@ -242,7 +247,9 @@ public class College implements Serializable {
             departmentName = sc.nextLine();
             exists = false;
             if (!departmentName.equals("return")) {
-                for (Department department : departments) {
+                Iterator<Department> it = departments.iterator();
+                while(it.hasNext()) {
+                    Department department = it.next();
                     if (department.getName().equalsIgnoreCase(departmentName)) {
                         System.out.println("This department already exists. Try a different name.");
                         exists = true;
@@ -293,31 +300,41 @@ public class College implements Serializable {
         int average = 0;
         if (lecturers.isEmpty())
             return 0;
-        for (Lecturer lecturer : lecturers) {
-            average += lecturer.getWage();
+        Iterator<Lecturer> it = lecturers.iterator();
+        while(it.hasNext()) {
+            average += it.next().getWage();
         }
         return (double) average / lecturers.size();
     }
 
     public double getSalaryAverageByDepartment(Department department) throws DoNotExists {
         int salaryTotal = 0;
-        for (Lecturer lecturer : department.getLecturers()) {
-            salaryTotal += lecturer.getWage();
+        Iterator<Lecturer> it = department.getLecturers().iterator();
+        while(it.hasNext()) {
+            salaryTotal += it.next().getWage();
         }
         return (double) salaryTotal / department.getLecturers().size();
     }
 
-    public void showDetailsLecturers() {
+    public void showDetailsLecturers(Comparator<Lecturer> cmp) {
+        java.util.TreeSet<Lecturer> sortedLecturers = new java.util.TreeSet<>(cmp);
+        sortedLecturers.addAll(lecturers);
         System.out.println("Here all the lecturers:");
-        for (Lecturer lecturer : lecturers) {
-            System.out.println(lecturer.toString() + "\n");
+        Iterator<Lecturer> it = sortedLecturers.iterator();
+        while(it.hasNext())
+        {
+            System.out.println(it.next().toString() + "\n");
         }
     }
 
-    public void showDetailsDepartments() {
+    public void showDetailsCommittees(Comparator<Committee> cmp) {
+        java.util.TreeSet<Committee> sortedCommittees = new java.util.TreeSet<>(cmp);
+        sortedCommittees.addAll(committees);
         System.out.println("Here all the committees:");
-        for (Committee committee : committees) {
-            System.out.println(committee.toString() + "\n");
+        Iterator<Committee> it = sortedCommittees.iterator();
+        while(it.hasNext())
+        {
+            System.out.println(it.next().toString() + "\n");
         }
     }
 
@@ -370,26 +387,36 @@ public class College implements Serializable {
 
     }
     public String toString(){
-        String details = "College name is: " + collegeName +"\nCollege lecturers details:\n ";
-        for (Lecturer lecturer : lecturers) details += lecturer.toString() + "\n";
+        StringBuilder details = new StringBuilder();
+        details.append("College name is: ").append(collegeName);
+        details.append("\nCollege lecturers details:\n");
+        Iterator<Lecturer> itLecturers = lecturers.iterator();
+        while (itLecturers.hasNext()) {
+            details.append(itLecturers.next().toString()).append("\n");
+        }
+        details.append("College Committees details:\n");
+        Iterator<Committee> itCommittees = committees.iterator();
+        while (itCommittees.hasNext()) {
+            details.append(itCommittees.next().toString()).append("\n");
+        }
 
-        details += "College Committees details:\n ";
+        details.append("College Departments details:\n");
+        Iterator<Department> itDepartments = departments.iterator();
+        while (itDepartments.hasNext()) {
+            details.append(itDepartments.next().toString()).append("\n");
+        }
 
-        for (Committee committee : committees) details += committee.toString() + "\n";
-
-        details += "College Departments details:\n ";
-
-        for (Department department: departments) details += department.toString() + "\n";
-
-        return details;
+        return details.toString();
     }
     public void duplicateCommittee(String committeeName) throws AlreadyInException, DoNotExists {
         Committee original = getByName(committees,committeeName);
         Committee copy = new Committee(committeeName + "-new", original.getChairperson(),original.getDegreeType());
         original.getChairperson().getCommittees().add(copy);
-        for (Lecturer orginalLecturer : original.getLecturers()) {
-            addObject(copy.getLecturers(),orginalLecturer,orginalLecturer.getName());
-            addObject(orginalLecturer.getCommittees(),copy,orginalLecturer.getName());
+        Iterator<Lecturer> it = original.getLecturers().iterator();
+        while (it.hasNext()) {
+            Lecturer orginalLecturer = it.next();
+            addObject(copy.getLecturers(), orginalLecturer, orginalLecturer.getName());
+            addObject(orginalLecturer.getCommittees(), copy, orginalLecturer.getName());
         }
         committees.add(copy);
         System.out.printf("Committee '%s' duplicated successfully as '%s'\n", committeeName, copy.getName());
