@@ -1,17 +1,19 @@
 package OhadGipsAndTamirEliasy;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Iterator;
 
 public class Department implements HasName, Serializable {
     private String name;
     private int numOfStudents;
-    private final ArrayList<Lecturer> lecturers;
+    private final HashSet<Lecturer> lecturers;
 
     public Department(String name, int numOfStudents) {
         setName(name);
         setNumOfStudents(numOfStudents);
-        lecturers = new ArrayList<>();
+        lecturers = new HashSet<>();
     }
 
     public String getName() {
@@ -23,37 +25,38 @@ public class Department implements HasName, Serializable {
     public void setNumOfStudents(int numOfStudents) {
         this.numOfStudents = numOfStudents;
     }
-    public ArrayList<Lecturer> getLecturers() {
+    public HashSet<Lecturer> getLecturers() {
         return lecturers;
     }
     public int getNumOfStudents() {
         return numOfStudents;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 
     public String toString() {
-        String details = "Department name is: " + getName()
-                + "\nNumber Of Students: "+ getNumOfStudents() +
-                "\nLecturers in this department: ";
-        for (int i = 0; i < lecturers.size(); i++) {
-            details += lecturers.get(i).getName();
-            if (i < lecturers.size() - 1) {
-                details += (", ");
+        StringBuilder details = new StringBuilder();
+        details.append("Department name is: ").append(getName())
+                .append("\nNumber Of Students: ").append(getNumOfStudents())
+                .append("\nLecturers in this department: ");
+        Iterator<Lecturer> it = lecturers.iterator();
+        while (it.hasNext()) {
+            details.append(it.next().getName());
+            if (it.hasNext()) {
+                details.append(",");
             }
         }
-        return details + "\n";
+        return details.append("\n").toString();
     }
 
     @Override
     public boolean equals(Object obj) { // the function return true if it is the same
         if (obj == null) return false;
-        else if (!(obj instanceof Department department)) return false;
-        else {
-            if (!name.equals(department.getName())) return false;
-            else if (numOfStudents != department.getNumOfStudents()) return false;
-            else if (lecturers.size() != department.getLecturers().size()) return false;
-            else return lecturers.equals(department.getLecturers());
+        if (!(obj instanceof Department department)) return false;
+        return Objects.equals(name, department.name);
         }
-    }
 }
 

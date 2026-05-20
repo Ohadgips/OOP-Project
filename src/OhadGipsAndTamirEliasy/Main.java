@@ -119,10 +119,55 @@ public class Main {
                         }
                         break;
                     case 10:
-                        college.showDetailsLecturers();
+                        System.out.println("Choose sorting criterion:");
+                        System.out.println("1 - By Name");
+                        System.out.println("2 - By ID");
+                        System.out.println("3 - By Name Of Degree");
+                        System.out.println("4 - By Wage");
+                        System.out.print("Your choice: ");
+                        option = sc.nextInt();
+                        java.util.Comparator<Lecturer> comparator;
+                        switch (option)
+                        {
+                            case 1:
+                                comparator = (l1, l2) -> l1.getName().compareTo(l2.getName());
+                                break;
+                            case 2:
+                                comparator = (l1, l2) -> Integer.compare(l1.getId(), l2.getId());
+                                break;
+                            case 3:
+                                comparator = (l1, l2) -> l1.getNameOfDegree().compareTo(l2.getNameOfDegree());
+                                break;
+                            case 4:
+                                comparator = (l1, l2) -> Integer.compare(l1.getWage(), l2.getWage());
+                                break;
+                            default:
+                                comparator = (l1, l2) -> l1.getName().compareTo(l2.getName());
+                                break;
+                        }
+                        college.showDetailsLecturers(comparator);
                         break;
                     case 11:
-                        college.showDetailsDepartments();
+                        System.out.println("Choose sorting criterion:");
+                        System.out.println("1 - By Name");
+                        System.out.println("2 - By Chairperson Name");
+                        System.out.print("Your choice: ");
+                        option = sc.nextInt();
+                        java.util.Comparator<Committee> Committeecmp;
+                        switch (option)
+                        {
+                            case 1:
+                                Committeecmp = (l1, l2) -> l1.getName().compareTo(l2.getName());
+                                break;
+                            case 2:
+                                Committeecmp = (l1, l2) -> l1.getChairperson().getName().compareTo(l2.getChairperson().getName());
+                                break;
+                            default:
+                                Committeecmp = (l1, l2) -> l1.getName().compareTo(l2.getName());
+                                break;
+                        }
+
+                        college.showDetailsCommittees(Committeecmp);
                         break;
                     case 12:
                         System.out.print("Enter first doctor name: ");
