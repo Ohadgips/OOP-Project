@@ -3,7 +3,7 @@ package OhadGipsAndTamirEliasy;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
-
+// Submitted By: Tamir Eliasy 216430298 & Ohad Gips 215426883
 public class Doctor extends Lecturer implements Serializable {
     protected HashSet<String> articles;   // pointer - arr of str
     public Doctor(String name, int id, Degree kindOfDegree, String nameOfDegree, int wage,HashSet<String> articles)  {

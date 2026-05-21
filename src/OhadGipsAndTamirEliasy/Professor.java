@@ -3,7 +3,7 @@ package OhadGipsAndTamirEliasy;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
-
+// Submitted By: Tamir Eliasy 216430298 & Ohad Gips 215426883
 public class Professor extends Doctor implements Serializable {
     private String professorshipPlace;
 

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Objects;
-
+// Submitted By: Tamir Eliasy 216430298 & Ohad Gips 215426883
 public class Lecturer implements HasName, Serializable
 {
     public enum Degree {

@@ -1,3 +1,5 @@
+Submitted By: Tamir Eliasy 216430298 & Ohad Gips 215426883
+
 Version Details:
 Course: Object-Oriented Design (11902)
 Assignment: Homework Assignment #1

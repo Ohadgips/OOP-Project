@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Scanner;
 
+// Submitted By: Tamir Eliasy 216430298 & Ohad Gips 215426883
 public class College implements Serializable {
     private String collegeName;
     private final HashSet<Lecturer> lecturers;
