@@ -1,18 +1,20 @@
 package OhadGipsAndTamirEliasy;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Objects;
 
 public class Committee implements HasName, Serializable {
     private String name;
-    private final ArrayList<Lecturer> lecturers;
+    private final HashSet<Lecturer> lecturers;
     private Lecturer chairperson;
     private Lecturer.Degree degreeType;
 
-    public Committee(String name,Lecturer chairperson,Lecturer.Degree degreeType) {
+    public Committee(String name, Lecturer chairperson, Lecturer.Degree degreeType) {
         setChairperson(chairperson);
         setName(name);
-        lecturers = new ArrayList<>();
+        lecturers = new HashSet<>();
         setDegreeType(degreeType);
     }
 
@@ -27,9 +29,11 @@ public class Committee implements HasName, Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
     public String getName() {
         return name;
     }
+
     public Lecturer getChairperson() {
         return chairperson;
     }
@@ -38,6 +42,7 @@ public class Committee implements HasName, Serializable {
         this.chairperson = chairperson;
         return true;
     }
+
     public boolean canBeChairperson(Lecturer lecturer) throws CommitteeException {
         if (lecturer.getKindOfDegree() == Lecturer.Degree.Doctoral || lecturer.getKindOfDegree() == Lecturer.Degree.Professional)
             return true;
@@ -47,15 +52,16 @@ public class Committee implements HasName, Serializable {
     }
 
 
-    public ArrayList<Lecturer> getLecturers() {
+    public HashSet<Lecturer> getLecturers() {
         return lecturers;
     }
 
-    public int getArticlesAmount(){
+    public int getArticlesAmount() {
         int sum = 0;
-        for (Lecturer lecturer : lecturers) {
-            if (lecturer instanceof Doctor)
-            {
+        Iterator<Lecturer> it = lecturers.iterator();
+        while (it.hasNext()) {
+            Lecturer lecturer = it.next();
+            if (lecturer instanceof Doctor) {
                 sum += ((Doctor) lecturer).articles.size();
             }
         }
@@ -63,30 +69,40 @@ public class Committee implements HasName, Serializable {
     }
 
 
+    @Override
     public String toString() {
-        String details = "Committee name is: " + name
-                + "\nChairperson is: " + chairperson.getName()
-                +"\nThe lecturers degree type in this committee: "+degreeType
-                + "\nThe lecturers in this committee are: ";
-        for (int i = 0; i < lecturers.size(); i++) {
-            details += lecturers.get(i).getName();
-            if (i < lecturers.size() - 1) {
-                details += (", ");
+        StringBuilder details = new StringBuilder();
+        details.append("Committee name is: ").append(name)
+                .append("\nChairperson is: ").append(chairperson.getName())
+                .append("\nThe lecturers degree type in this committee: ").append(degreeType)
+                .append("\nThe lecturers in this committee are: ");
+
+        Iterator<Lecturer> it = lecturers.iterator();
+        while (it.hasNext()) {
+            Lecturer lecturer = it.next();
+            details.append(lecturer.getName());
+            if (it.hasNext()) {
+                details.append(", ");
             }
         }
-        return details + "\n";
+        details.append("\n");
+        return details.toString();
     }
 
     @Override
-    public boolean equals(Object obj) { // the function return true if it is the same
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
         if (obj == null) return false;
-        else if (!(obj instanceof Committee other)) return false;
-        else {
-            if (!name.equals(other.getName())) return false;
-            else if (!degreeType.equals(other.getDegreeType())) return false;
-            else if (!chairperson.equals(other.getChairperson())) return false;
-            else if (lecturers.size() != other.getLecturers().size()) return false;
-            else return (lecturers.equals(other.getLecturers()));
-        }
+        if (!(obj instanceof Committee other)) return false;
+        return Objects.equals(name, other.name) &&
+                degreeType == other.degreeType &&
+                Objects.equals(chairperson, other.chairperson) &&
+                Objects.equals(lecturers, other.lecturers);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }
+

@@ -1,6 +1,7 @@
 package OhadGipsAndTamirEliasy;
 
 import java.io.*;
+import java.util.Comparator;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -54,6 +55,7 @@ public class Main {
                         try {
                             college.addLecturer();
                         } catch (EnumDoNotExists e) {
+
                             System.out.println(e.getMessage());
                         }
                         break;
@@ -126,25 +128,12 @@ public class Main {
                         System.out.println("4 - By Wage");
                         System.out.print("Your choice: ");
                         option = sc.nextInt();
-                        java.util.Comparator<Lecturer> comparator;
-                        switch (option)
-                        {
-                            case 1:
-                                comparator = (l1, l2) -> l1.getName().compareTo(l2.getName());
-                                break;
-                            case 2:
-                                comparator = (l1, l2) -> Integer.compare(l1.getId(), l2.getId());
-                                break;
-                            case 3:
-                                comparator = (l1, l2) -> l1.getNameOfDegree().compareTo(l2.getNameOfDegree());
-                                break;
-                            case 4:
-                                comparator = (l1, l2) -> Integer.compare(l1.getWage(), l2.getWage());
-                                break;
-                            default:
-                                comparator = (l1, l2) -> l1.getName().compareTo(l2.getName());
-                                break;
-                        }
+                        java.util.Comparator<Lecturer> comparator = switch (option) {
+                            case 2 -> Comparator.comparingInt(Lecturer::getId);
+                            case 3 -> Comparator.comparing(Lecturer::getNameOfDegree);
+                            case 4 -> Comparator.comparingInt(Lecturer::getWage);
+                            default -> Comparator.comparing(Lecturer::getName);
+                        };
                         college.showDetailsLecturers(comparator);
                         break;
                     case 11:
@@ -154,18 +143,12 @@ public class Main {
                         System.out.print("Your choice: ");
                         option = sc.nextInt();
                         java.util.Comparator<Committee> Committeecmp;
-                        switch (option)
-                        {
-                            case 1:
-                                Committeecmp = (l1, l2) -> l1.getName().compareTo(l2.getName());
-                                break;
-                            case 2:
-                                Committeecmp = (l1, l2) -> l1.getChairperson().getName().compareTo(l2.getChairperson().getName());
-                                break;
-                            default:
-                                Committeecmp = (l1, l2) -> l1.getName().compareTo(l2.getName());
-                                break;
-                        }
+                        if (option == 2)
+                            Committeecmp = Comparator.comparing(l -> l.getChairperson().getName());
+                        else
+                            Committeecmp = Comparator.comparing(Committee::getName);
+
+
 
                         college.showDetailsCommittees(Committeecmp);
                         break;

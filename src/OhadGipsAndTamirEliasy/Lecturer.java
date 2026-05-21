@@ -1,7 +1,9 @@
 package OhadGipsAndTamirEliasy;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Objects;
 
 public class Lecturer implements HasName, Serializable
 {
@@ -17,7 +19,7 @@ public class Lecturer implements HasName, Serializable
     protected String nameOfDegree;
     protected int wage;
     protected Department department;
-    protected ArrayList<Committee> committees;
+    protected HashSet<Committee> committees;
 
     public Lecturer(String name, int id, Degree kindOfDegree, String nameOfDegree, int wage) {
         setName(name);
@@ -25,7 +27,7 @@ public class Lecturer implements HasName, Serializable
         setKindOfDegree(kindOfDegree);
         setNameOfDegree(nameOfDegree);
         setWage(wage);
-        this.committees = new ArrayList<>();
+        this.committees = new HashSet<>();
         department = null;
 
     }
@@ -61,24 +63,31 @@ public class Lecturer implements HasName, Serializable
         return department;
     }
 
+    @Override
     public String toString() {
-        String details = "Lecturer name is: " + name +
-                "\nHis id is: " + id +
-                "\nKind of Degree is: " + kindOfDegree +
-                "\nName of degree is: " + nameOfDegree +
-                "\nWage is: " + wage;
-        if (department != null)
-            details += "\nDepartment is: " + department.getName();
-        details += "\nPart of this committees: ";
-        for (int i = 0; i < committees.size(); i++) {
-            details += committees.get(i).getName();
-            if (i < committees.size() - 1) {
-                details += (", ");
+        StringBuilder details = new StringBuilder();
+        details.append("Lecturer name is: ").append(name)
+                .append("\nHis id is: ").append(id)
+                .append("\nKind of Degree is: ").append(kindOfDegree)
+                .append("\nName of degree is: ").append(nameOfDegree)
+                .append("\nWage is: ").append(wage);
+        if (department != null) {
+            details.append("\nDepartment is: ").append(department.getName());
+        }
+        details.append("\nPart of this committees: ");
+
+        Iterator<Committee> it = committees.iterator();
+        while (it.hasNext()) {
+            Committee committee = it.next();
+            details.append(committee.getName());
+            if (it.hasNext()) {
+                details.append(", ");
             }
         }
-        return details;
+        return details.toString();
     }
-    public ArrayList<Committee> getCommittees() {
+
+    public HashSet<Committee> getCommittees() {
         return committees;
     }
 
@@ -88,23 +97,23 @@ public class Lecturer implements HasName, Serializable
     public int getId() {
         return id;
     }
+
     @Override
-    public boolean equals(Object Obj) {// the function return true if it is the same
-            if (!(Obj instanceof Lecturer lecturer)) return false;
-            else {
-                if (committees.size() != lecturer.getCommittees().size()) return false;
-                else if (!name.equals(lecturer.getName())) return false;
-                else if (kindOfDegree != lecturer.getKindOfDegree()) return false;
-                else if (!nameOfDegree.equals(lecturer.getNameOfDegree())) return false;
-                else if (id != lecturer.getId()) return false;
-                else if (!(wage == lecturer.getWage())) return false;
-                else if (!(committees.equals(lecturer.getCommittees()))) return false;
-                else{
-                    if (department== null && lecturer.getDepartment() == null) return true;
-                    else if (lecturer.getDepartment() == null || department == null) return false;
-                    else return department.equals(lecturer.getDepartment());
-                }
-            }
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Lecturer lecturer)) return false;
+        return id == lecturer.id &&
+                wage == lecturer.wage &&
+                Objects.equals(name, lecturer.name) &&
+                kindOfDegree == lecturer.kindOfDegree &&
+                Objects.equals(nameOfDegree, lecturer.nameOfDegree) &&
+                Objects.equals(committees, lecturer.committees) &&
+                Objects.equals(department, lecturer.department);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, id);
     }
 }
 
