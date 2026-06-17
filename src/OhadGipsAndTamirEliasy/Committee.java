@@ -43,14 +43,6 @@ public class Committee implements HasName, Serializable {
         return true;
     }
 
-    public boolean canBeChairperson(Lecturer lecturer) throws CommitteeException {
-        if (lecturer.getKindOfDegree() == Lecturer.Degree.Doctoral || lecturer.getKindOfDegree() == Lecturer.Degree.Professional)
-            return true;
-        else {
-            throw new CommitteeException();
-        }
-    }
-
 
     public HashSet<Lecturer> getLecturers() {
         return lecturers;
@@ -61,9 +53,7 @@ public class Committee implements HasName, Serializable {
         Iterator<Lecturer> it = lecturers.iterator();
         while (it.hasNext()) {
             Lecturer lecturer = it.next();
-            if (lecturer instanceof Doctor) {
-                sum += ((Doctor) lecturer).articles.size();
-            }
+                sum += lecturer.getArticleCount();
         }
         return sum;
     }

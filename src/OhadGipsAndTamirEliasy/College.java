@@ -195,7 +195,7 @@ public class College implements Serializable {
             try {
                 Lecturer lecturer = getByName(lecturers,lecturerName);
                 committee.getChairperson().getCommittees().remove(committee);
-                if (committee.canBeChairperson(lecturer)) {
+                if (lecturer.canBeChairperson()) {
                     committee.getLecturers().remove(lecturer);
                     try {
                         addObject(lecturer.getCommittees(), committee, lecturer.getName());

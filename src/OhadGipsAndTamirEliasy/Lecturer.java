@@ -110,6 +110,10 @@ public class Lecturer implements HasName, Serializable
                 Objects.equals(committees, lecturer.committees) &&
                 Objects.equals(department, lecturer.department);
     }
+    public int getArticleCount() {
+        return 0;
+    }
+    public boolean canBeChairperson() { return false; }
 
     @Override
     public int hashCode() {

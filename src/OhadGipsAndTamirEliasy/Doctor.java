@@ -35,6 +35,11 @@ public class Doctor extends Lecturer implements Serializable {
         }
         return details.append("\n").toString();
     }
+    @Override
+    public int getArticleCount() { return articles.size(); }
+
+    @Override
+    public boolean canBeChairperson() { return true; }
 
     @Override
     public boolean equals(Object lecturer) {
