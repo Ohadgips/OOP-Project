@@ -19,6 +19,7 @@ public class College implements Serializable {
         this.departments = new HashSet<>();
     }
 
+
     public String getCollegeName() {
         return collegeName;
     }
@@ -34,7 +35,6 @@ public class College implements Serializable {
         return departments;
     }
 
-    // generic func that get an obj by name from arraylist
     public static <T extends HasName> T getByName(HashSet<T> list,String name) throws DoNotExists {
         for (T item : list) {
             if (item.getName().equals(name)) {
@@ -50,66 +50,24 @@ public class College implements Serializable {
         else throw new AlreadyInException(exception);
     }
 
-    public void addLecturer() throws EnumDoNotExists {
-        String input;
-        boolean exists;
-        Scanner sc = new Scanner(System.in);
-        do {
-            System.out.print("Enter Lecturer Name (to return enter 'return'): ");
-            exists = false;
-            input = sc.nextLine();
-            if (!input.equals("return")) {
-                Iterator<Lecturer> it = lecturers.iterator();
-                while (it.hasNext()) {
-                    if (it.next().getName().equals(input)) {
-                        System.out.println("\nThis name is already in use. Try a different name");
-                        exists = true;
-                        break;
-                    }
+    public boolean lecturerExist(String name)
+    {
+        if (lecturers != null) {
+            for (Lecturer lect : lecturers) {
+                if (lect.getName().equals(name))
+                {
+                    return true;
                 }
             }
-        } while (exists);
-        if (!input.equals("return")) {
-            System.out.print("\nEnter lecturer ID: ");
-            int id = sc.nextInt();
-            sc.nextLine();
-            System.out.print("\nEnter kind of degree (Bachelor, Master, Doctoral, Professional): ");
-            Lecturer.Degree kindOfDegree;
-            try {
-                kindOfDegree = Lecturer.Degree.valueOf(sc.nextLine());
-            } catch (Exception e) {
-                throw new EnumDoNotExists();
-            }
-            System.out.print("\nEnter name of degree: ");
-            String degreeName = sc.nextLine();
-            System.out.print("\nEnter lecturer wage: ");
-            int wage = sc.nextInt();
-
-            if (Lecturer.Degree.Doctoral.equals(kindOfDegree) || Lecturer.Degree.Professional.equals(kindOfDegree)) {
-                String string;
-                HashSet<String> articles = new HashSet<>();
-                sc.nextLine(); // lastly got int need to clear the input from /n
-                do {
-                    System.out.print("\nEnter articles name (enter to stop): ");
-                    string = sc.nextLine();
-                    if (!string.isEmpty()) {
-                        articles.add(string);
-                    }
-                } while (!string.isEmpty());
-
-                if (Lecturer.Degree.Professional.equals(kindOfDegree)) {
-                    System.out.print("\nEnter place that gave the degree of this professor: ");
-                    String professorName = sc.nextLine();
-                    lecturers.add(new Professor(input, id, kindOfDegree, degreeName, wage, professorName, articles));
-                } else
-                    lecturers.add(new Doctor(input, id, kindOfDegree, degreeName, wage, articles));
-
-            } else
-                lecturers.add(new Lecturer(input, id, kindOfDegree, degreeName, wage));
         }
+        return false;
+    }
+    public boolean addLecturer(Lecturer lecturer)
+    {
+        return lecturers.add(lecturer);
     }
 
-    public void addCommittee() throws EnumDoNotExists {
+    public boolean addCommittee() throws EnumDoNotExists {
         // without a doctoral lecturer you cannot create a committee
         if (HasDoctoralLecturer()) {
             boolean exists;
@@ -155,13 +113,16 @@ public class College implements Serializable {
                     Committee newCommittee = new Committee(name, chairperson,kindOfDegree);
                     committees.add(newCommittee);
                     chairperson.getCommittees().add(newCommittee);
-                    System.out.printf("%s has been created, %s it is chairperson\n", name, chairpersonName);
+
+                    return true;
                 } catch (Exception e) {
                     throw new EnumDoNotExists();
                 }
             }
-        } else System.out.println("There are no doctoral lecturers in the college to create a committee");
-
+        } else{
+            return false;
+        }
+        return true;
     }
 
     public void addLecturerToCommittee(String committeeName, String lecturerName) throws AlreadyInException,NotRightDegreeType {

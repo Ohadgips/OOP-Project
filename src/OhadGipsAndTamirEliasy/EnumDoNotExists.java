@@ -5,5 +5,6 @@ public class EnumDoNotExists extends Exception {
 
         super("this is not a type of degree. try again\n");
 
+
     }
 }
