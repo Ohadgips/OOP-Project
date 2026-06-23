@@ -62,6 +62,10 @@ public class Lecturer implements HasName, Serializable
     public Department getDepartment() {
         return department;
     }
+    public boolean addCommittee(Committee committee)
+    {
+        return committees.add(committee);
+    }
 
     @Override
     public String toString() {
