@@ -6,10 +6,9 @@ import java.util.*;
 
 public class CollegeUI {
     private College college;
-    private static File file;
     private static Scanner sc;
 
-    public CollegeUI() throws DoNotExists, IOException {
+    public CollegeUI() {
 
         sc = new Scanner(System.in);
         System.out.print("Enter College Name: ");
@@ -72,8 +71,6 @@ public class CollegeUI {
                             if (addCommitteeUI()) {
                                 System.out.println("a new committee has been created\n");
                             }
-                        } catch (EnumDoNotExists e) {
-                            System.out.println(e.getMessage());
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                         }
@@ -227,48 +224,45 @@ public class CollegeUI {
             } else break;
 
         } while (true);
-        if (!input.equals("return")) {
-            System.out.print("\nEnter lecturer ID: ");
-            int id = sc.nextInt();
-            sc.nextLine();
-            System.out.print("\nEnter kind of degree (Bachelor, Master, Doctoral, Professional): ");
-            Lecturer.Degree kindOfDegree;
-            try {
-                kindOfDegree = Lecturer.Degree.valueOf(sc.nextLine());
-            } catch (Exception e) {
-                throw new EnumDoNotExists();
-            }
-            System.out.print("\nEnter name of degree: ");
-            String degreeName = sc.nextLine();
-            System.out.print("\nEnter lecturer wage: ");
-            int wage = sc.nextInt();
-
-            if (Lecturer.Degree.Doctoral.equals(kindOfDegree) || Lecturer.Degree.Professional.equals(kindOfDegree)) {
-                String string;
-                HashSet<String> articles = new HashSet<>();
-                sc.nextLine(); // lastly got int need to clear the input from /n
-                do {
-                    System.out.print("\nEnter articles name (enter to stop): ");
-                    string = sc.nextLine();
-                    if (!string.isEmpty()) {
-                        articles.add(string);
-                    }
-                } while (!string.isEmpty());
-
-                if (Lecturer.Degree.Professional.equals(kindOfDegree)) {
-                    System.out.print("\nEnter place that gave the degree of this professor: ");
-                    String professorName = sc.nextLine();
-                    college.addLecturer(new Professor(input, id, kindOfDegree, degreeName, wage, professorName, articles));
-                } else
-                    college.addLecturer(new Doctor(input, id, kindOfDegree, degreeName, wage, articles));
-
-            } else
-                college.addLecturer(new Lecturer(input, id, kindOfDegree, degreeName, wage));
-            return true;
+        System.out.print("\nEnter lecturer ID: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+        System.out.print("\nEnter kind of degree (Bachelor, Master, Doctoral, Professional): ");
+        Lecturer.Degree kindOfDegree;
+        try {
+            kindOfDegree = Lecturer.Degree.valueOf(sc.nextLine());
+        } catch (Exception e) {
+            throw new EnumDoNotExists();
         }
-        return false;
+        System.out.print("\nEnter name of degree: ");
+        String degreeName = sc.nextLine();
+        System.out.print("\nEnter lecturer wage: ");
+        int wage = sc.nextInt();
+
+        if (Lecturer.Degree.Doctoral.equals(kindOfDegree) || Lecturer.Degree.Professional.equals(kindOfDegree)) {
+            String string;
+            HashSet<String> articles = new HashSet<>();
+            sc.nextLine(); // lastly got int need to clear the input from /n
+            do {
+                System.out.print("\nEnter articles name (enter to stop): ");
+                string = sc.nextLine();
+                if (!string.isEmpty()) {
+                    articles.add(string);
+                }
+            } while (!string.isEmpty());
+
+            if (Lecturer.Degree.Professional.equals(kindOfDegree)) {
+                System.out.print("\nEnter place that gave the degree of this professor: ");
+                String professorName = sc.nextLine();
+                college.addLecturer(new Professor(input, id, kindOfDegree, degreeName, wage, professorName, articles));
+            } else
+                college.addLecturer(new Doctor(input, id, kindOfDegree, degreeName, wage, articles));
+
+        } else
+            college.addLecturer(new Lecturer(input, id, kindOfDegree, degreeName, wage));
+        return true;
     }
-    public boolean addCommitteeUI() throws EnumDoNotExists, DoNotExists {
+    public boolean addCommitteeUI() throws EnumDoNotExists {
         if (!college.HasDoctoralLecturer()) {
             System.out.println("There are no doctoral lecturers in the college to create a committee");
             return false;
@@ -284,7 +278,7 @@ public class CollegeUI {
             else break;
         } while (true);
 
-        Lecturer chairperson = null;
+        Lecturer chairperson;
         do {
             System.out.print("Enter chairperson name: ");
             String chairpersonName = sc.nextLine();
@@ -352,7 +346,7 @@ public class CollegeUI {
                     System.out.printf("%s is already part of %s\n", lecturerName, departmentName);
                     return;
                 } else {
-                    String input = "";
+                    String input;
                     do {
                         System.out.printf("%s is already part of department. Do you want to change his department? (yes/no): ", lecturerName);
                         input = sc.nextLine();

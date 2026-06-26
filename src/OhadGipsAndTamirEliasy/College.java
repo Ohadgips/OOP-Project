@@ -2,8 +2,6 @@ package OhadGipsAndTamirEliasy;
 import java.io.*;
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Scanner;
 
 // Submitted By: Tamir Eliasy 216430298 & Ohad Gips 215426883
 public class College implements Serializable {
@@ -100,7 +98,7 @@ public class College implements Serializable {
         Lecturer lecturer = getByName(lecturers, lecturerName);
         committee.getChairperson().getCommittees().remove(committee);
         if (!lecturer.canBeChairperson()) {
-            throw new CommitteeException(lecturerName + " doesn't meet the requirements");
+            throw new CommitteeException();
         }
         committee.getLecturers().remove(lecturer);
         addObject(lecturer.getCommittees(), committee, lecturer.getName());
@@ -108,9 +106,7 @@ public class College implements Serializable {
     }
 
     public boolean HasDoctoralLecturer() {
-        Iterator<Lecturer> it = lecturers.iterator();
-        while(it.hasNext()) {
-            Lecturer lecturer = it.next();
+        for (Lecturer lecturer : lecturers) {
             if (lecturer.getKindOfDegree() == Lecturer.Degree.Doctoral || lecturer.getKindOfDegree() == Lecturer.Degree.Professional)
                 return true;
         }
@@ -152,18 +148,16 @@ public class College implements Serializable {
         int average = 0;
         if (lecturers.isEmpty())
             return 0;
-        Iterator<Lecturer> it = lecturers.iterator();
-        while(it.hasNext()) {
-            average += it.next().getWage();
+        for (Lecturer lecturer : lecturers) {
+            average += lecturer.getWage();
         }
         return (double) average / lecturers.size();
     }
 
     public double getSalaryAverageByDepartment(Department department) throws DoNotExists {
         int salaryTotal = 0;
-        Iterator<Lecturer> it = department.getLecturers().iterator();
-        while(it.hasNext()) {
-            salaryTotal += it.next().getWage();
+        for (Lecturer lecturer : department.getLecturers()) {
+            salaryTotal += lecturer.getWage();
         }
         return (double) salaryTotal / department.getLecturers().size();
     }
@@ -176,9 +170,8 @@ public class College implements Serializable {
         java.util.TreeSet<Lecturer> sortedLecturers = new java.util.TreeSet<>(cmp);
         sortedLecturers.addAll(lecturers);
         StringBuilder sb = new StringBuilder("Here all the lecturers:\n");
-        Iterator<Lecturer> it = sortedLecturers.iterator();
-        while (it.hasNext()) {
-            sb.append(it.next().toString()).append("\n");
+        for (Lecturer sortedLecturer : sortedLecturers) {
+            sb.append(sortedLecturer.toString()).append("\n");
         }
         return sb.toString();
     }
@@ -187,9 +180,8 @@ public class College implements Serializable {
         java.util.TreeSet<Committee> sortedCommittees = new java.util.TreeSet<>(cmp);
         sortedCommittees.addAll(committees);
         StringBuilder sb = new StringBuilder("Here all the committees:\n");
-        Iterator<Committee> it = sortedCommittees.iterator();
-        while (it.hasNext()) {
-            sb.append(it.next().toString()).append("\n");
+        for (Committee sortedCommittee : sortedCommittees) {
+            sb.append(sortedCommittee.toString()).append("\n");
         }
         return sb.toString();
     }
@@ -245,20 +237,17 @@ public class College implements Serializable {
         StringBuilder details = new StringBuilder();
         details.append("College name is: ").append(collegeName);
         details.append("\nCollege lecturers details:\n");
-        Iterator<Lecturer> itLecturers = lecturers.iterator();
-        while (itLecturers.hasNext()) {
-            details.append(itLecturers.next().toString()).append("\n");
+        for (Lecturer lecturer : lecturers) {
+            details.append(lecturer.toString()).append("\n");
         }
         details.append("College Committees details:\n");
-        Iterator<Committee> itCommittees = committees.iterator();
-        while (itCommittees.hasNext()) {
-            details.append(itCommittees.next().toString()).append("\n");
+        for (Committee committee : committees) {
+            details.append(committee.toString()).append("\n");
         }
 
         details.append("College Departments details:\n");
-        Iterator<Department> itDepartments = departments.iterator();
-        while (itDepartments.hasNext()) {
-            details.append(itDepartments.next().toString()).append("\n");
+        for (Department department : departments) {
+            details.append(department.toString()).append("\n");
         }
 
         return details.toString();
@@ -267,9 +256,7 @@ public class College implements Serializable {
         Committee original = getByName(committees, committeeName);
         Committee copy = new Committee(committeeName + "-new", original.getChairperson(), original.getDegreeType());
         original.getChairperson().getCommittees().add(copy);
-        Iterator<Lecturer> it = original.getLecturers().iterator();
-        while (it.hasNext()) {
-            Lecturer orginalLecturer = it.next();
+        for (Lecturer orginalLecturer : original.getLecturers()) {
             addObject(copy.getLecturers(), orginalLecturer, orginalLecturer.getName());
             addObject(orginalLecturer.getCommittees(), copy, orginalLecturer.getName());
         }
