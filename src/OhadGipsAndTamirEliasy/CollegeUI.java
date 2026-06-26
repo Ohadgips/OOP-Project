@@ -17,7 +17,7 @@ public class CollegeUI {
         File file = new File(fileName);
         if (file.exists()) {
             try {
-                college = College.loadFromFile(fileName);
+                college = CollegeFileHandler.loadFromFile(fileName);
                 System.out.println("Load saved data for this existing college: " + collegeName);
             } catch (Exception e) {
                 System.err.println("Error loading file, start a new college");
@@ -204,7 +204,7 @@ public class CollegeUI {
         while (option != 0);
         System.out.println("You have left the system");
         try {
-            college.saveCollege(college.getCollegeName() + "_backup.bin");
+            CollegeFileHandler.saveCollege(college.getCollegeName() + "_backup.bin");
             System.out.println("Data saved. Goodbye!");
         } catch (
                 IOException e) {
