@@ -204,7 +204,7 @@ public class CollegeUI {
         while (option != 0);
         System.out.println("You have left the system");
         try {
-            CollegeFileHandler.saveCollege(college.getCollegeName() + "_backup.bin");
+            CollegeFileHandler.saveCollege(college,college.getCollegeName() + "_backup.bin");
             System.out.println("Data saved. Goodbye!");
         } catch (
                 IOException e) {
