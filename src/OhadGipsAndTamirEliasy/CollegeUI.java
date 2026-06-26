@@ -202,8 +202,6 @@ public class CollegeUI {
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input try again");
                 sc.nextLine();
-            } catch (DoNotExists e) {
-                throw new RuntimeException(e);
             }
         }
         while (option != 0);

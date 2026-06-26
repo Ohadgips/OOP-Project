@@ -95,7 +95,7 @@ public class College implements Serializable {
     }
 
     // set new chairperson - remove committee from chairperson list
-    public void setNewChairperson(String committeeName, String lecturerName) throws CommitteeException, DoNotExists {
+    public void setNewChairperson(String committeeName, String lecturerName) throws CommitteeException, DoNotExists, AlreadyInException {
         Committee committee = getByName(committees, committeeName);
         Lecturer lecturer = getByName(lecturers, lecturerName);
         committee.getChairperson().getCommittees().remove(committee);
