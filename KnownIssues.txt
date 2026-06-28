@@ -8,19 +8,33 @@ Version Number: 6
 Bugs & Problems:
 There are no known bugs or problems at the moment.
 
-Changes In This Version:
+Changes In This Version (SOLID Refactoring):
 
-Committee.java Class
-- changed get articles
-- removed can be a chair person
+New Classes
+- CollegeUI.java - new class that holds all user interaction (the menu, Scanner input and output).
+All input/output was moved here  out of College and Main.
+- CollegeFileHandler.java - new class responsible for saving and loading the College to/from a file.
 
-Doctor.java Class
-- added get articles
-- added can be a chair person
+Main.java
+- Reduced to only creating a CollegeUI and calling UI();
 
-Lecturer.java Class
-- added can be a chair person
+College.java
+- Removed all console input/output; the class now holds only the data and the logic.
+- Removed the file save/load logic (moved to CollegeFileHandler).
+- addLecturer/addCommittee/addDepartment now receive ready objects instead of reading the input themselves.
+- compareDoctors() and compareCommittees() now return a String instead of printing to the screen.
+- setNewChairperson() now uses the polymorphic canBeChairperson() instead of checking the degree type directly.
+- Added formatSortedLecturers() and formatSortedCommittees() that receive a Comparator, so the sorting strategy is passed from outside.
 
+Lecturer.java
+- Added getArticleCount() returning 0 as a polymorphic base method.
+- Added canBeChairperson() returning false as a polymorphic base method.
 
+Doctor.java
+- Overrode getArticleCount() to return the actual number of articles.
+- Overrode canBeChairperson() to return true.
+
+Committee.java
+- Removed the old canBeChairperson(Lecturer) method; the check is now handled by polymorphism.
 
  
