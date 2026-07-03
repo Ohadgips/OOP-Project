@@ -62,9 +62,9 @@ public class Lecturer implements HasName, Serializable
     public Department getDepartment() {
         return department;
     }
-    public boolean addCommittee(Committee committee)
+    public void addCommittee(Committee committee)
     {
-        return committees.add(committee);
+        committees.add(committee);
     }
 
     @Override

@@ -12,17 +12,13 @@ public class Professor extends Doctor implements Serializable {
         setProfessorshipPlace(professorshipPlace);
     }
 
-    public String getProfessorshipPlace() {
-        return professorshipPlace;
-    }
-
     public void setProfessorshipPlace(String professorshipPlace) {
         this.professorshipPlace = professorshipPlace;
     }
 
     @Override
     public String toString() {
-        return super.toString() + "\nPlace that gave him the professorship is: " + professorshipPlace;
+        return super.toString() + "Place that gave him the professorship is: \n" + professorshipPlace;
     }
 
     @Override

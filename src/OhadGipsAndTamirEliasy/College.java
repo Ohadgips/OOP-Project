@@ -75,9 +75,9 @@ public class College implements Serializable {
         }
         return false;
     }
-    public boolean addCommittee(Committee committee)
+    public void addCommittee(Committee committee)
     {
-        return committees.add(committee);
+        committees.add(committee);
     }
     public void addLecturerToCommittee(String committeeName, String lecturerName) throws AlreadyInException, NotRightDegreeType, DoNotExists {
         Committee committee = getByName(committees, committeeName);
@@ -261,6 +261,10 @@ public class College implements Serializable {
             addObject(orginalLecturer.getCommittees(), copy, orginalLecturer.getName());
         }
         committees.add(copy);
+    }
+    public void removeLecturerFromDepartment(String lecturerName) throws DoNotExists {
+        Lecturer lecturer = College.getByName(lecturers, lecturerName);
+        lecturer.setDepartment(null);
     }
 
 }

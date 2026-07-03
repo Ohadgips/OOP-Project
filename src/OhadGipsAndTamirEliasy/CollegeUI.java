@@ -27,6 +27,7 @@ public class CollegeUI {
             college = new College(collegeName); // new college
         }
     }
+
     public void UI() {
         int option = -1;
         do {
@@ -41,28 +42,29 @@ public class CollegeUI {
                         5- Remove a lecturer from a committee
                         6- Add a study department
                         7- Add a lecturer to a study department
-                        8- Show the average salary of all lecturers in college
-                        9- Show the average salary of lecturers in a certain department
-                        10- Show all lecturers information
-                        11- Show all committees information
-                        12 - Compare between doctors
-                        13 - Compare between committees
-                        14 - Duplicate committee""");
+                        8- Remove a lecturer from a study department
+                        9- Show the average salary of all lecturers in college
+                        10- Show the average salary of lecturers in a certain department
+                        11- Show all lecturers information
+                        12- Show all committees information
+                        13 - Compare between doctors
+                        14 - Compare between committees
+                        15 - Duplicate committee""");
 
                 option = sc.nextInt();
-                String lecturerName, committeeName, departmentName;
+                String committeeName, departmentName;
                 sc.nextLine();
                 switch (option) {
                     case 1:
                         try {
-                            if (addLecturerUI())
-                            {
+                            if (addLecturerUI()) {
                                 System.out.println("\n a new lecturer was created\n");
-                            }
-                            else System.out.println("\n a new lecturer was not created\n");
+                            } else System.out.println("\n a new lecturer was not created\n");
                         } catch (EnumDoNotExists e) {
 
                             System.out.println(e.getMessage());
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
                         }
                         break;
 
@@ -76,41 +78,13 @@ public class CollegeUI {
                         }
                         break;
                     case 3:
-                        System.out.print("Enter committee name: ");
-                        committeeName = sc.nextLine();
-                        System.out.print("Enter lecturer name: ");
-                        lecturerName = sc.nextLine();
-
-                        try {
-                            college.addLecturerToCommittee(committeeName, lecturerName);
-                            System.out.printf("%s has been added to the committee\n", lecturerName);
-                        } catch (Exception e) {
-                            System.out.println(e.getMessage());
-                        }
+                        AddToCommitteeUI();
                         break;
                     case 4:
-                        System.out.print("Enter committee name: ");
-                        committeeName = sc.nextLine();
-                        System.out.print("Enter lecturer name: ");
-                        lecturerName = sc.nextLine();
-                        try {
-                            college.setNewChairperson(committeeName, lecturerName);
-                            System.out.printf("%s is now the chairperson of %s\n", lecturerName, committeeName);
-                        } catch (Exception e) {
-                            System.out.println(e.getMessage());
-                        }
+                        ChangeChairpersonUI();
                         break;
                     case 5:
-                        System.out.print("Enter committee name: ");
-                        committeeName = sc.nextLine();
-                        System.out.print("Enter lecturer name: ");
-                        lecturerName = sc.nextLine();
-                        try {
-                            college.removeCommitteeMember(committeeName, lecturerName);
-                            System.out.printf("%s has been removed from %s\n", lecturerName, committeeName);
-                        } catch (DoNotExists e) {
-                            System.out.println(e.getMessage());
-                        }
+                        RemoveFromCommitteeUI();
                         break;
                     case 6:
                         addDepartmentUI();
@@ -119,9 +93,12 @@ public class CollegeUI {
                         addLecturerToDepartmentUI();
                         break;
                     case 8:
-                        System.out.printf("The average wage for lecturers in this college is: %s\n", college.salaryAverage());
+                        removeLecturerFromDepartmentUI();
                         break;
                     case 9:
+                        System.out.printf("The average wage for lecturers in this college is: %s\n", college.salaryAverage());
+                        break;
+                    case 10:
                         try {
                             System.out.print("Enter department name: ");
                             departmentName = sc.nextLine();
@@ -131,7 +108,7 @@ public class CollegeUI {
                             System.out.println(e.getMessage());
                         }
                         break;
-                    case 10:
+                    case 11:
                         System.out.println("Choose sorting criterion:");
                         System.out.println("1 - By Name");
                         System.out.println("2 - By ID");
@@ -147,7 +124,7 @@ public class CollegeUI {
                         };
                         System.out.println(college.formatSortedLecturers(comparator));
                         break;
-                    case 11:
+                    case 12:
                         System.out.println("Choose sorting criterion:");
                         System.out.println("1 - By Name");
                         System.out.println("2 - By Chairperson Name");
@@ -161,29 +138,13 @@ public class CollegeUI {
 
                         System.out.println(college.formatSortedCommittees(Committeecmp));
                         break;
-                    case 12:
-                        System.out.print("Enter first doctor name: ");
-                        String doctor1Name = sc.nextLine();
-                        System.out.print("Enter second doctor name: ");
-                        String doctor2Name = sc.nextLine();
-                        try {
-                            System.out.println(college.compareDoctors(college.getDoctor(doctor1Name), college.getDoctor(doctor2Name)));
-                        } catch (DoNotExists e) {
-                            System.out.println(e.getMessage());
-                        }
-                        break;
                     case 13:
-                        System.out.print("Enter first committee name: ");
-                        String firstCommitteeName = sc.nextLine();
-                        System.out.print("Enter second committee name: ");
-                        String secondCommitteeName = sc.nextLine();
-                        try {
-                            System.out.println(college.compareCommittees(College.getByName(college.getCommittees(), firstCommitteeName), College.getByName(college.getCommittees(), secondCommitteeName)));
-                        } catch (DoNotExists e) {
-                            System.out.println(e.getMessage());
-                        }
+                        CompareDoctorsUI();
                         break;
                     case 14:
+                        CompareCommitteeUI();
+                        break;
+                    case 15:
                         System.out.print("Enter committee name to duplicate: ");
                         committeeName = sc.nextLine();
                         try {
@@ -204,7 +165,7 @@ public class CollegeUI {
         while (option != 0);
         System.out.println("You have left the system");
         try {
-            CollegeFileHandler.saveCollege(college,college.getCollegeName() + "_backup.bin");
+            CollegeFileHandler.saveCollege(college, college.getCollegeName() + "_backup.bin");
             System.out.println("Data saved. Goodbye!");
         } catch (
                 IOException e) {
@@ -212,157 +173,202 @@ public class CollegeUI {
         }
     }
 
-    public boolean addLecturerUI() throws EnumDoNotExists {
-        String input;
-        do {
-            System.out.print("Enter Lecturer Name (to return enter 'return'): ");
-            input = sc.nextLine();
-            if(input.equals("return")) return false;
-            if (college.lecturerExist(input))
-            {
-                System.out.print("\nThis name is already in use. Try a different name");
-            } else break;
-
-        } while (true);
-        System.out.print("\nEnter lecturer ID: ");
-        int id = sc.nextInt();
-        sc.nextLine();
-        System.out.print("\nEnter kind of degree (Bachelor, Master, Doctoral, Professional): ");
-        Lecturer.Degree kindOfDegree;
+    public void AddToCommitteeUI() {
         try {
-            kindOfDegree = Lecturer.Degree.valueOf(sc.nextLine());
-        } catch (Exception e) {
-            throw new EnumDoNotExists();
-        }
-        System.out.print("\nEnter name of degree: ");
-        String degreeName = sc.nextLine();
-        System.out.print("\nEnter lecturer wage: ");
-        int wage = sc.nextInt();
+            WizardWorkflow addMemberWizard = new CommitteeActionWizard(
+                    college,
+                    "Enter committee name: ",
+                    "Enter lecturer name: ",
+                    "add"
+            );
 
-        if (Lecturer.Degree.Doctoral.equals(kindOfDegree) || Lecturer.Degree.Professional.equals(kindOfDegree)) {
-            String string;
-            HashSet<String> articles = new HashSet<>();
-            sc.nextLine(); // lastly got int need to clear the input from /n
-            do {
-                System.out.print("\nEnter articles name (enter to stop): ");
-                string = sc.nextLine();
-                if (!string.isEmpty()) {
-                    articles.add(string);
-                }
-            } while (!string.isEmpty());
+            HasName result = addMemberWizard.runWorkflow();
+            if (result != null) {
+                String[] parts = result.getName().split(",");
+                String commName = parts[0];
+                String lecName = parts[1];
 
-            if (Lecturer.Degree.Professional.equals(kindOfDegree)) {
-                System.out.print("\nEnter place that gave the degree of this professor: ");
-                String professorName = sc.nextLine();
-                college.addLecturer(new Professor(input, id, kindOfDegree, degreeName, wage, professorName, articles));
-            } else
-                college.addLecturer(new Doctor(input, id, kindOfDegree, degreeName, wage, articles));
-
-        } else
-            college.addLecturer(new Lecturer(input, id, kindOfDegree, degreeName, wage));
-        return true;
-    }
-    public boolean addCommitteeUI() throws EnumDoNotExists {
-        if (!college.HasDoctoralLecturer()) {
-            System.out.println("There are no doctoral lecturers in the college to create a committee");
-            return false;
-        }
-        
-        String committeeName;
-        do {
-            System.out.print("Enter committee name (to return enter 'return'): ");
-            committeeName = sc.nextLine();
-            if (committeeName.equals("return")) return false;
-            if (college.committeeExist(committeeName))
-                System.out.println("This committee already exists. Try a different name");
-            else break;
-        } while (true);
-
-        Lecturer chairperson;
-        do {
-            System.out.print("Enter chairperson name: ");
-            String chairpersonName = sc.nextLine();
-            try {
-                chairperson = College.getByName(college.getLecturers(), chairpersonName);
-                if (chairperson.getKindOfDegree() == Lecturer.Degree.Doctoral || chairperson.getKindOfDegree() == Lecturer.Degree.Professional) {
-                    break;
-                } else {
-                    System.out.println("This lecturer does not meet the requirements");
-                }
-            } catch (DoNotExists e) {
-                System.out.println(e.getMessage() + ". Try a different name");
+                college.addLecturerToCommittee(commName, lecName);
+                System.out.printf("%s has been added to the committee\n", lecName);
             }
-        } while (true);
-
-        System.out.print("Enter committee degree type (Bachelor, Master, Doctoral, Professional): ");
-        Lecturer.Degree kindOfDegree;
-        try {
-            kindOfDegree = Lecturer.Degree.valueOf(sc.nextLine());
         } catch (Exception e) {
-            throw new EnumDoNotExists();
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    public void ChangeChairpersonUI() {
+        try {
+            WizardWorkflow chairWizard = new CommitteeActionWizard(
+                    college,
+                    "Enter committee name: ",
+                    "Enter lecturer name: ",
+                    "chairperson"
+            );
+
+            HasName result = chairWizard.runWorkflow();
+            if (result != null) {
+                String[] parts = result.getName().split(",");
+                String commName = parts[0];
+                String lecName = parts[1];
+
+                college.setNewChairperson(commName, lecName);
+                System.out.printf("%s is now the chairperson of %s\n", lecName, commName);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void RemoveFromCommitteeUI() {
+        try {
+            WizardWorkflow removeWizard = new CommitteeActionWizard(
+                    college,
+                    "Enter committee name: ",
+                    "Enter lecturer name: ",
+                    "remove"
+            );
+
+            HasName result = removeWizard.runWorkflow();
+            if (result != null) {
+                String[] parts = result.getName().split(",");
+                String commName = parts[0];
+                String lecName = parts[1];
+
+                college.removeCommitteeMember(commName, lecName);
+                System.out.printf("%s has been removed from %s\n", lecName, commName);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    public boolean addCommitteeUI() {
+        try {
+            WizardWorkflow wizard = new CommitteeWizard(college);
+            Committee committee = (Committee) wizard.runWorkflow();
+
+            if (committee != null) {
+                college.addCommittee(committee);
+                return true;
+            }
+        } catch (IllegalStateException e) {
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error creating committee: " + e.getMessage());
+        }
+        return false;
+    }
+
+    public void CompareDoctorsUI() {
+        try {
+            WizardWorkflow doctorWizard = new CompareWizard(
+                    college,
+                    "Enter first doctor name: ",
+                    "Enter second doctor name: ",
+                    "doctor"
+            );
+
+            HasName result = doctorWizard.runWorkflow();
+            if (result != null) {
+                String[] names = result.getName().split(",");
+                String doc1 = names[0];
+                String doc2 = names[1];
+                System.out.println(college.compareDoctors(college.getDoctor(doc1), college.getDoctor(doc2)));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void CompareCommitteeUI() {
+        try {
+            WizardWorkflow committeeWizard = new CompareWizard(
+                    college,
+                    "Enter first committee name: ",
+                    "Enter second committee name: ",
+                    "committee"
+            );
+
+            HasName result = committeeWizard.runWorkflow();
+            if (result != null) {
+                String[] names = result.getName().split(",");
+                String comm1 = names[0];
+                String comm2 = names[1];
+
+                System.out.println(college.compareCommittees(
+                        College.getByName(college.getCommittees(), comm1),
+                        College.getByName(college.getCommittees(), comm2)
+                ));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    public boolean addLecturerUI() throws Exception {
+        WizardWorkflow wizard = new LecturerWizard(college);
+
+        Lecturer lecturer = (Lecturer) wizard.runWorkflow();
+
+        if (lecturer != null) {
+            boolean added = college.addLecturer(lecturer);
+            System.out.println(added ? "Added successfully!" : "Lecturer already exists.");
+            return added;
         }
 
-        Committee newCommittee = new Committee(committeeName, chairperson, kindOfDegree);
-        college.addCommittee(newCommittee);
-        chairperson.addCommittee(newCommittee);
-        return true;
+        return false;
     }
+
 
     public void addDepartmentUI() {
-        String departmentName;
-        boolean exists;
-        do {
-            System.out.print("Enter department name (to return enter 'return'): ");
-            departmentName = sc.nextLine();
-            exists = false;
-            if (!departmentName.equals("return")) {
-                if (college.departmentExists(departmentName)) {
-                    System.out.println("This department already exists. Try a different name.");
-                    exists = true;
-                }
+        try {
+            WizardWorkflow wizard = new DepartmentWizard(college);
+            Department department = (Department) wizard.runWorkflow();
+
+            if (department != null) {
+                college.addDepartment(department);
+                System.out.printf("%s department was added successfully.\n", department.getName());
             }
-        } while (exists);
-
-        if (!departmentName.equals("return")) {
-            System.out.print("Enter number of students in the department: ");
-            int numOfStudents = sc.nextInt();
-            sc.nextLine();
-
-            college.addDepartment(new Department(departmentName, numOfStudents));
-            System.out.printf("%s department was added successfully.\n", departmentName);
+        } catch (Exception e) {
+            System.out.println("Error creating the department: " + e.getMessage());
         }
     }
 
     public void addLecturerToDepartmentUI() {
-        System.out.print("Enter lecturer name: ");
-        String lecturerName = sc.nextLine();
-        System.out.print("Enter department name: ");
-        String departmentName = sc.nextLine();
-
         try {
-            Lecturer lecturer = College.getByName(college.getLecturers(), lecturerName);
-            if (lecturer.getDepartment() != null) {
-                if (lecturer.getDepartment().getName().equalsIgnoreCase(departmentName)) {
-                    System.out.printf("%s is already part of %s\n", lecturerName, departmentName);
-                    return;
-                } else {
-                    String input;
-                    do {
-                        System.out.printf("%s is already part of department. Do you want to change his department? (yes/no): ", lecturerName);
-                        input = sc.nextLine();
-                    } while (!(input.equals("yes") || input.equals("no")));
+            WizardWorkflow workflow = new LecturerDepartmentActionWizard(college, "add");
+            HasName result = workflow.runWorkflow();
 
-                    if (!input.equals("yes")) {
-                        System.out.println("Lecturer has not been added to the department");
-                        return;
-                    }
-                }
+            if (result != null) {
+                String[] parts = result.getName().split(",");
+                String lecturerName = parts[0];
+                String departmentName = parts[1];
+
+                college.addLecturerToDepartment(lecturerName, departmentName);
+                System.out.printf("%s has been added to the department\n", lecturerName);
             }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+    public void removeLecturerFromDepartmentUI() {
+        try {
+            WizardWorkflow workflow = new LecturerDepartmentActionWizard(college, "remove");
+            HasName result = workflow.runWorkflow();
 
-            college.addLecturerToDepartment(lecturerName, departmentName);
-            System.out.printf("%s has been added to the department\n", lecturerName);
-        } catch (DoNotExists e) {
-            System.out.println(e.getMessage());
+            if (result != null) {
+                String[] parts = result.getName().split(",");
+                String lecturerName = parts[0];
+                String departmentName = parts[1];
+
+                college.removeLecturerFromDepartment(lecturerName);
+                System.out.printf("%s has been removed from %s\n", lecturerName, departmentName);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
 }

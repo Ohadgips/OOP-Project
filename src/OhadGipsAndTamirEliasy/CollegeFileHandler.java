@@ -5,10 +5,9 @@ import java.io.*;
 public class CollegeFileHandler {
 
         //save college
-        public static boolean saveCollege(College college ,String filename) throws IOException {
+        public static void saveCollege(College college , String filename) throws IOException {
             try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))) {
                 out.writeObject(college);
-                return true;
             }
         }
         //load college

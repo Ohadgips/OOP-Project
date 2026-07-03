@@ -38,9 +38,8 @@ public class Committee implements HasName, Serializable {
         return chairperson;
     }
 
-    public boolean setChairperson(Lecturer chairperson) {
+    public void setChairperson(Lecturer chairperson) {
         this.chairperson = chairperson;
-        return true;
     }
 
 
@@ -50,10 +49,8 @@ public class Committee implements HasName, Serializable {
 
     public int getArticlesAmount() {
         int sum = 0;
-        Iterator<Lecturer> it = lecturers.iterator();
-        while (it.hasNext()) {
-            Lecturer lecturer = it.next();
-                sum += lecturer.getArticleCount();
+        for (Lecturer lecturer : lecturers) {
+            sum += lecturer.getArticleCount();
         }
         return sum;
     }
