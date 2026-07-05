@@ -2,39 +2,76 @@ Submitted By: Tamir Eliasy 216430298 & Ohad Gips 215426883
 
 Version Details:
 Course: Object-Oriented Design (11902)
-Assignment: Homework Assignment #2
-Version Number: 6
+Assignment: Homework Assignment #3
+Version Number: 7
 
-Bugs & Problems:
+Requirements:
+- Java 21 or newer is required. The wizards use the SequencedCollection API
+  (List.getFirst(), getLast(), removeLast()), which was introduced in Java 21.
+
+
+Bugs & Problems (Known Issues):
 There are no known bugs or problems at the moment.
 
-Changes In This Version (SOLID Refactoring):
 
-New Classes
-- CollegeUI.java - new class that holds all user interaction (the menu, Scanner input and output).
-All input/output was moved here  out of College and Main.
-- CollegeFileHandler.java - new class responsible for saving and loading the College to/from a file.
+Changes In This Version:
 
-Main.java
-- Reduced to only creating a CollegeUI and calling UI();
+Design patterns introduced:
+- Template Method pattern: new abstract class WizardWorkflow defines the fixed skeleton
+  of a multi-step input flow (initialize -> processSteps -> completeWorkflow) and leaves
+  the variable steps to the subclasses.
+
+- Command pattern: new Command interface (execute / undo). Each accepted step is wrapped
+  in a Command and pushed onto a stack, which is what enables 'back'/undo navigation.
+
+- Factory Method pattern: createEntity() is declared abstract in WizardWorkflow and
+  overridden by every concrete wizard to produce its own product type.
+
+  Some Examples for factories and their products:
+    - LecturerWizard.createEntity()               -> Lecturer / Doctor / Professor
+    - CommitteeWizard.createEntity()               -> Committee
+    - DepartmentWizard.createEntity()              -> Department
+    - CommitteeActionWizard.createEntity()         -> name-pair token (committee, lecturer)
+    - LecturerDepartmentActionWizard.createEntity()-> name-pair token (lecturer, department)
+    - CompareWizard.createEntity()                 -> name-pair token (entity1, entity2)
+    - DuplicateCommitteeWizard.createEntity()      -> name token (committee)
+
+New files:
+- Command.java                        - Command interface (execute / undo).
+- WizardWorkflow.java                 - Abstract base for all input wizards (Template Method + Command stack + Factory Method).
+- LecturerWizard.java                 - Add-lecturer flow
+- CommitteeWizard.java                - Add-committee flow
+- DepartmentWizard.java               - Add-department flow
+- CommitteeActionWizard.java          - Generic 2-step flow for assign / change-chairperson / remove.
+- LecturerDepartmentActionWizard.java - Add/Remove a lecturer to/from a department
+- CompareWizard.java                  - Generic 2-step flow for compare doctors / compare committees.
+- DuplicateCommitteeWizard.java       - 1-step wizard for duplicating a committee
+
+CollegeUI.java
+- Removed the long inline input+validation blocks; each menu action now delegates
+  to a wizard (addLecturerUI, addCommitteeUI, addDepartmentUI, AddToCommitteeUI,
+  ChangeChairpersonUI, RemoveFromCommitteeUI, addLecturerToDepartmentUI,
+  removeLecturerFromDepartmentUI, CompareDoctorsUI, CompareCommitteeUI).
+- Added menu option 8 "Remove a lecturer from a study department"; menu items
+  renumbered accordingly.
+
+- Migrated menu option 15 (duplicate committee) from inline code to
+  DuplicateCommitteeWizard, consistent with all other menu actions.
 
 College.java
-- Removed all console input/output; the class now holds only the data and the logic.
-- Removed the file save/load logic (moved to CollegeFileHandler).
-- addLecturer/addCommittee/addDepartment now receive ready objects instead of reading the input themselves.
-- compareDoctors() and compareCommittees() now return a String instead of printing to the screen.
-- setNewChairperson() now uses the polymorphic canBeChairperson() instead of checking the degree type directly.
-- Added formatSortedLecturers() and formatSortedCommittees() that receive a Comparator, so the sorting strategy is passed from outside.
-
-Lecturer.java
-- Added getArticleCount() returning 0 as a polymorphic base method.
-- Added canBeChairperson() returning false as a polymorphic base method.
-
-Doctor.java
-- Overrode getArticleCount() to return the actual number of articles.
-- Overrode canBeChairperson() to return true.
+- Added removeLecturerFromDepartment(String lecturerName) to support the new
+  "remove from department" feature.
+- addCommittee() return type changed from boolean to void.
 
 Committee.java
-- Removed the old canBeChairperson(Lecturer) method; the check is now handled by polymorphism.
+- setChairperson() return type changed from boolean to void.
 
- 
+Lecturer.java
+- addCommittee() return type changed from boolean to void.
+
+Professor.java
+- Removed the unused getProfessorshipPlace() getter
+
+Main.java
+- Removed the now-unnecessary "throws DoNotExists, IOException" and the unused
+  java.io import, since all exceptions are handled inside CollegeUI.

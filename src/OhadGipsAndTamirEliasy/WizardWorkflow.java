@@ -1,6 +1,7 @@
 package OhadGipsAndTamirEliasy;
 
 import java.util.*;
+// Submitted By: Tamir Eliasy 216430298 & Ohad Gips 215426883
 
 public abstract class WizardWorkflow {
     protected final List<String> gatheredData = new ArrayList<>();

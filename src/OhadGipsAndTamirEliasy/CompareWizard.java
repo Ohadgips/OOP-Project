@@ -1,6 +1,7 @@
 package OhadGipsAndTamirEliasy;
 
 import java.util.List;
+// Submitted By: Tamir Eliasy 216430298 & Ohad Gips 215426883
 
 public class CompareWizard extends WizardWorkflow {
     private final College college;
@@ -36,6 +37,6 @@ public class CompareWizard extends WizardWorkflow {
     }
     @Override
     protected HasName createEntity(List<String> data) {
-        return () -> data.getFirst() + "," + data.get(1);
+        return () -> data.getFirst() + "|||" + data.get(1);
     }
 }

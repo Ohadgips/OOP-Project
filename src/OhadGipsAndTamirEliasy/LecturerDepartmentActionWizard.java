@@ -1,6 +1,7 @@
 package OhadGipsAndTamirEliasy;
 
 import java.util.*;
+// Submitted By: Tamir Eliasy 216430298 & Ohad Gips 215426883
 
 public class LecturerDepartmentActionWizard extends WizardWorkflow {
     private final College college;
@@ -8,7 +9,7 @@ public class LecturerDepartmentActionWizard extends WizardWorkflow {
             "Enter lecturer name: ",
             "Enter department name: "
     ));
-    private final String actionType; // "add" או "remove"
+    private final String actionType;
     private boolean needsConfirmation = false;
 
     public LecturerDepartmentActionWizard(College college, String actionType) {
@@ -85,6 +86,6 @@ public class LecturerDepartmentActionWizard extends WizardWorkflow {
 
     @Override
     protected HasName createEntity(List<String> data) {
-        return () -> data.getFirst() + "," + data.get(1);
+        return () -> data.getFirst() + "|||" + data.get(1);
     }
 }

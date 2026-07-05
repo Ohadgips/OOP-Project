@@ -57,14 +57,15 @@ public class CollegeUI {
                 switch (option) {
                     case 1:
                         try {
-                            if (addLecturerUI()) {
-                                System.out.println("\n a new lecturer was created\n");
-                            } else System.out.println("\n a new lecturer was not created\n");
-                        } catch (EnumDoNotExists e) {
+                            if (addLecturerUI()) System.out.println("\n a new lecturer was created\n");
 
+                            else System.out.println("\n a new lecturer was not created\n");
+                        }
+                        catch (EnumDoNotExists e) {
                             System.out.println(e.getMessage());
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
+                        }
+                        catch (Exception e) {
+                            System.out.println("Error: " + e.getMessage());
                         }
                         break;
 
@@ -145,11 +146,15 @@ public class CollegeUI {
                         CompareCommitteeUI();
                         break;
                     case 15:
-                        System.out.print("Enter committee name to duplicate: ");
-                        committeeName = sc.nextLine();
                         try {
-                            college.duplicateCommittee(committeeName);
-                            System.out.printf("Committee '%s' duplicated successfully as '%s-new'\n", committeeName, committeeName);
+                            WizardWorkflow dupWizard = new DuplicateCommitteeWizard(college);
+                            HasName result = dupWizard.runWorkflow();
+                            if (result != null) {
+                                committeeName = result.getName();
+                                college.duplicateCommittee(committeeName);
+                                System.out.printf("Committee '%s' duplicated successfully as '%s-new'\n",
+                                        committeeName, committeeName);
+                            }
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                         }
@@ -184,7 +189,7 @@ public class CollegeUI {
 
             HasName result = addMemberWizard.runWorkflow();
             if (result != null) {
-                String[] parts = result.getName().split(",");
+                String[] parts = result.getName().split("\\|\\|\\|");
                 String commName = parts[0];
                 String lecName = parts[1];
 
@@ -208,7 +213,7 @@ public class CollegeUI {
 
             HasName result = chairWizard.runWorkflow();
             if (result != null) {
-                String[] parts = result.getName().split(",");
+                String[] parts = result.getName().split("\\|\\|\\|");
                 String commName = parts[0];
                 String lecName = parts[1];
 
@@ -231,7 +236,7 @@ public class CollegeUI {
 
             HasName result = removeWizard.runWorkflow();
             if (result != null) {
-                String[] parts = result.getName().split(",");
+                String[] parts = result.getName().split("\\|\\|\\|");
                 String commName = parts[0];
                 String lecName = parts[1];
 
@@ -272,7 +277,7 @@ public class CollegeUI {
 
             HasName result = doctorWizard.runWorkflow();
             if (result != null) {
-                String[] names = result.getName().split(",");
+                String[] names = result.getName().split("\\|\\|\\|");
                 String doc1 = names[0];
                 String doc2 = names[1];
                 System.out.println(college.compareDoctors(college.getDoctor(doc1), college.getDoctor(doc2)));
@@ -293,7 +298,7 @@ public class CollegeUI {
 
             HasName result = committeeWizard.runWorkflow();
             if (result != null) {
-                String[] names = result.getName().split(",");
+                String[] names = result.getName().split("\\|\\|\\|");
                 String comm1 = names[0];
                 String comm2 = names[1];
 
@@ -343,7 +348,7 @@ public class CollegeUI {
             HasName result = workflow.runWorkflow();
 
             if (result != null) {
-                String[] parts = result.getName().split(",");
+                String[] parts = result.getName().split("\\|\\|\\|");
                 String lecturerName = parts[0];
                 String departmentName = parts[1];
 
@@ -360,7 +365,7 @@ public class CollegeUI {
             HasName result = workflow.runWorkflow();
 
             if (result != null) {
-                String[] parts = result.getName().split(",");
+                String[] parts = result.getName().split("\\|\\|\\|");
                 String lecturerName = parts[0];
                 String departmentName = parts[1];
 

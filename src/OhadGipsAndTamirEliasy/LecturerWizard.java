@@ -2,6 +2,7 @@ package OhadGipsAndTamirEliasy;
 
 import java.util.*;
 import java.util.stream.Collectors;
+// Submitted By: Tamir Eliasy 216430298 & Ohad Gips 215426883
 
 public class LecturerWizard extends WizardWorkflow {
     private final College college;

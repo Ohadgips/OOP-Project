@@ -1,5 +1,6 @@
 package OhadGipsAndTamirEliasy;
 import java.util.*;
+// Submitted By: Tamir Eliasy 216430298 & Ohad Gips 215426883
 
 public class CommitteeActionWizard extends WizardWorkflow {
     private final College college;
@@ -55,6 +56,6 @@ public class CommitteeActionWizard extends WizardWorkflow {
 
     @Override
     protected HasName createEntity(List<String> data) {
-        return () -> data.getFirst() + "," + data.get(1);
+        return () -> data.getFirst() + "|||" + data.get(1);
     }
 }
